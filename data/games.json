@@ -48,16 +48,16 @@
     "url": "/games/OBDScanner/index.html"
   },
   {
-    "id": "pit-stop-rush",
-    "title": "Pit Stop Rush",
-    "tagline": "Reflex tyre-change challenge",
-    "description": "Four wheels, one timer, zero margin for error. Tap the right tools in sequence to get your driver back on track before the field passes you by.",
+    "id": "ColorMatcher",
+    "title": "Color Matcher",
+    "tagline": "Paint if you aint it",
+    "description": "You have to paint your car but you don't know the color of it yet. So you just have to guess it and pray it meets the client demand",
     "category": "game",
-    "status": "coming-soon",
+    "status": "live",
     "difficulty": 5,
     "tags": ["Reflex", "Time Attack"],
     "icon": "stopwatch",
-    "url": null
+    "url": "/games/ColorMatcher/index.html"
   },
   {
     "id": "gear-ratio-riddles",

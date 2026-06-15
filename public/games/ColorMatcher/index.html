@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Paintworks — Color Match Bay</title>
+<style>
+  :root{
+    --bg:#0e0f12;
+    --booth-1:#15171c;
+    --booth-2:#0b0c0f;
+    --panel:#171a20;
+    --panel-2:#1d212a;
+    --line:#2a2f3a;
+    --line-soft:#23272f;
+    --ink:#eef0f3;
+    --ink-dim:#9aa1ad;
+    --ink-faint:#646b78;
+    --amber:#ff8a3d;
+    --amber-soft:#ffb27a;
+    --good:#54d6a0;
+    --bad:#ff5d6c;
+    --mono:"SFMono-Regular",ui-monospace,"Menlo","Consolas",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 30% -10%, #1b1f27 0%, transparent 60%),
+      radial-gradient(900px 700px at 100% 110%, #15181f 0%, transparent 55%),
+      var(--bg);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  .app{
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:14px 22px;
+    border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+  }
+  .brand{display:flex;align-items:baseline;gap:12px;min-width:0}
+  .brand .mark{
+    font-weight:800;letter-spacing:.14em;font-size:18px;
+    text-transform:uppercase;white-space:nowrap;
+  }
+  .brand .mark b{color:var(--amber)}
+  .brand .sub{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    color:var(--ink-faint);text-transform:uppercase;white-space:nowrap;
+  }
+  .stats{display:flex;gap:10px}
+  .stat{
+    font-family:var(--mono);text-align:right;
+    padding:4px 12px;border:1px solid var(--line);border-radius:9px;
+    background:rgba(255,255,255,.015);
+  }
+  .stat .k{display:block;font-size:9px;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase}
+  .stat .v{display:block;font-size:16px;font-weight:600;color:var(--ink);line-height:1.2}
+
+  /* ---------- Layout ---------- */
+  main{
+    flex:1;min-height:0;
+    display:grid;
+    grid-template-columns:1fr 380px;
+  }
+  .booth{
+    position:relative;min-height:0;
+    background:
+      radial-gradient(120% 90% at 50% 0%, var(--booth-1), var(--booth-2) 70%);
+    overflow:hidden;
+  }
+  #scene{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+  #scene:active{cursor:grabbing}
+  .booth .hint{
+    position:absolute;left:50%;bottom:14px;transform:translateX(-50%);
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+    color:var(--ink-faint);text-transform:uppercase;pointer-events:none;
+    opacity:.8;
+  }
+  .stripe{
+    position:absolute;left:0;right:0;height:3px;
+    background:repeating-linear-gradient(90deg,var(--amber) 0 22px,#0e0f12 22px 40px);
+    opacity:.5;
+  }
+  .stripe.top{top:0}.stripe.bot{bottom:0}
+
+  /* ---------- Side panel ---------- */
+  .side{
+    border-left:1px solid var(--line-soft);
+    background:linear-gradient(180deg,var(--panel),#13161b);
+    display:flex;flex-direction:column;min-height:0;
+  }
+  .scroll{overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:16px}
+  .scroll::-webkit-scrollbar{width:8px}
+  .scroll::-webkit-scrollbar-thumb{background:#2a2f3a;border-radius:8px}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+    color:var(--ink-faint);text-transform:uppercase;margin:0 0 8px;
+  }
+
+  /* Target chip */
+  .target{
+    border:1px solid var(--line);border-radius:14px;padding:14px;
+    background:var(--panel-2);
+  }
+  .chip{
+    position:relative;height:108px;border-radius:10px;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), 0 6px 18px rgba(0,0,0,.4);
+  }
+  .chip::after{ /* glossy paint-sample sheen */
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 38%),
+               linear-gradient(0deg,rgba(0,0,0,.22),transparent 50%);
+    pointer-events:none;
+  }
+  .chip .code{
+    position:absolute;left:10px;bottom:8px;z-index:2;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    color:rgba(255,255,255,.92);text-shadow:0 1px 3px rgba(0,0,0,.6);
+  }
+  .target .name{margin-top:10px;font-size:17px;font-weight:650;letter-spacing:.01em}
+  .target .desc{margin-top:2px;font-size:12px;color:var(--ink-dim)}
+
+  /* Mixer */
+  .mixer{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--panel-2)}
+  .pig{display:flex;align-items:center;gap:12px;padding:7px 0}
+  .pig + .pig{border-top:1px solid var(--line-soft)}
+  .dot{width:18px;height:18px;border-radius:5px;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
+  .pig .lab{width:48px;font-size:12px;color:var(--ink-dim);flex:none;text-transform:capitalize}
+  .pig input[type=range]{flex:1;height:22px;background:transparent;-webkit-appearance:none;appearance:none;margin:0;cursor:pointer}
+  .pig input[type=range]:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:6px}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:#0d0f13;box-shadow:inset 0 0 0 1px var(--line)}
+  input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:#0d0f13;box-shadow:inset 0 0 0 1px var(--line)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;margin-top:-5px;background:#f3f4f6;box-shadow:0 1px 4px rgba(0,0,0,.5);border:2px solid var(--pc,#fff)}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border:2px solid var(--pc,#fff);border-radius:50%;background:#f3f4f6}
+  .pig .val{width:24px;text-align:right;font-family:var(--mono);font-size:13px;color:var(--ink);flex:none}
+
+  .preview{display:flex;align-items:center;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft)}
+  .swatch{width:46px;height:46px;border-radius:9px;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+  .swatch.empty{
+    background:
+      repeating-linear-gradient(45deg,#1b1e25 0 7px,#15181e 7px 14px);
+  }
+  .preview .meta{flex:1;min-width:0}
+  .preview .meta .t{font-size:11px;color:var(--ink-faint);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase}
+  .preview .meta .rgb{font-family:var(--mono);font-size:13px;color:var(--ink-dim)}
+
+  .row{display:flex;gap:10px;margin-top:14px}
+  button{font-family:var(--sans);cursor:pointer;border:none;border-radius:10px;font-weight:600;transition:transform .08s ease,filter .15s ease,background .15s}
+  button:active{transform:translateY(1px)}
+  button:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .btn-primary{flex:1;padding:13px;font-size:14px;letter-spacing:.02em;color:#1a1206;
+    background:linear-gradient(180deg,var(--amber-soft),var(--amber));box-shadow:0 6px 16px rgba(255,138,61,.28)}
+  .btn-primary:disabled{filter:grayscale(.7) brightness(.6);cursor:not-allowed;box-shadow:none}
+  .btn-ghost{padding:13px 16px;font-size:13px;color:var(--ink-dim);background:transparent;border:1px solid var(--line)}
+  .btn-ghost:hover{color:var(--ink);border-color:#3a414e}
+
+  /* Result */
+  .result{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel-2);display:none}
+  .result.show{display:block;animation:rise .35s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .gauge-wrap{display:flex;align-items:center;gap:16px}
+  .gauge{position:relative;width:104px;height:104px;flex:none}
+  .gauge svg{transform:rotate(-90deg)}
+  .gauge .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .gauge .pct b{font-family:var(--mono);font-size:26px;font-weight:600;line-height:1}
+  .gauge .pct span{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--ink-faint);margin-top:3px}
+  .verdict{flex:1;min-width:0}
+  .verdict .word{font-size:20px;font-weight:750;letter-spacing:.01em}
+  .verdict .de{font-family:var(--mono);font-size:11px;color:var(--ink-dim);margin-top:4px}
+
+  .compare{display:flex;gap:10px;margin-top:14px}
+  .compare .c{flex:1}
+  .compare .c .cl{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:6px}
+  .compare .c .cs{height:40px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .scanline{position:relative;overflow:hidden}
+  .scanline::before{content:"";position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.85);box-shadow:0 0 12px rgba(255,255,255,.8);left:-4px;animation:sweep .9s ease}
+  @keyframes sweep{from{left:-4px}to{left:100%}}
+
+  .toast{
+    position:absolute;left:50%;top:18px;transform:translate(-50%,-20px);
+    background:rgba(15,17,21,.92);border:1px solid var(--amber);
+    color:var(--amber-soft);font-weight:700;letter-spacing:.02em;
+    padding:10px 22px;border-radius:999px;font-size:15px;
+    opacity:0;pointer-events:none;transition:all .3s ease;z-index:5;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* Mobile */
+  @media (max-width:880px){
+    main{grid-template-columns:1fr;grid-template-rows:minmax(220px,42vh) 1fr}
+    .side{border-left:none;border-top:1px solid var(--line-soft)}
+    header{padding:11px 16px}
+    .brand .sub{display:none}
+    .stat{padding:3px 9px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="mark">PAINT<b>WORKS</b></div>
+      <div class="sub">Color Match Bay</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Round</span><span class="v" id="st-round">1</span></div>
+      <div class="stat"><span class="k">Last</span><span class="v" id="st-last">—</span></div>
+      <div class="stat"><span class="k">Best</span><span class="v" id="st-best">—</span></div>
+      <div class="stat"><span class="k">Avg</span><span class="v" id="st-avg">—</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="booth">
+      <div class="stripe top"></div>
+      <canvas id="scene"></canvas>
+      <div class="stripe bot"></div>
+      <div class="hint" id="hint">Drag to rotate · mix paint to match the sample</div>
+      <div class="toast" id="toast"></div>
+    </section>
+
+    <aside class="side">
+      <div class="scroll">
+
+        <div class="target">
+          <p class="eyebrow">Match this finish</p>
+          <div class="chip" id="chip"><span class="code" id="chip-code">HL-0000</span></div>
+          <div class="name" id="t-name">—</div>
+          <div class="desc">Mix by eye. There's no color readout for the sample.</div>
+        </div>
+
+        <div class="mixer">
+          <p class="eyebrow">Pigment dispenser · parts</p>
+          <div id="pigs"></div>
+          <div class="preview">
+            <div class="swatch empty" id="swatch"></div>
+            <div class="meta">
+              <div class="t">Your mix</div>
+              <div class="rgb" id="mix-rgb">add some paint</div>
+            </div>
+          </div>
+          <div class="row">
+            <button class="btn-primary" id="spray" disabled>Spray &amp; compare</button>
+            <button class="btn-ghost" id="clear">Clear</button>
+          </div>
+        </div>
+
+        <div class="result" id="result">
+          <div class="gauge-wrap">
+            <div class="gauge">
+              <svg width="104" height="104" viewBox="0 0 104 104">
+                <circle cx="52" cy="52" r="46" fill="none" stroke="#23272f" stroke-width="8"/>
+                <circle id="ring" cx="52" cy="52" r="46" fill="none" stroke="var(--amber)" stroke-width="8"
+                        stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/>
+              </svg>
+              <div class="pct"><b id="pct">0%</b><span>match</span></div>
+            </div>
+            <div class="verdict">
+              <div class="word" id="verdict">—</div>
+              <div class="de" id="delta">ΔE —</div>
+            </div>
+          </div>
+          <div class="compare">
+            <div class="c"><div class="cl">Target</div><div class="cs" id="cmp-target"></div></div>
+            <div class="c scanline" id="scan"><div class="cl">Your mix</div><div class="cs" id="cmp-mix"></div></div>
+          </div>
+          <div class="row">
+            <button class="btn-primary" id="next">Next car →</button>
+            <button class="btn-ghost" id="tweak">Tweak</button>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============ Pigments ============ */
+const PIGMENTS = [
+  { id:'red',   color:[211,38,46]  },
+  { id:'green', color:[42,168,84]  },
+  { id:'blue',  color:[40,96,214]  },
+  { id:'black', color:[20,22,26]   },
+  { id:'white', color:[244,246,248]},
+];
+// Pure mixing primaries used for the math (clean RGB + black/white)
+const MIX_BASE = {
+  red:[255,0,0], green:[0,255,0], blue:[0,0,255], black:[0,0,0], white:[255,255,255]
+};
+let parts = { red:0, green:0, blue:0, black:0, white:0 };
+
+function mix(p){
+  const total = Object.values(p).reduce((a,b)=>a+b,0);
+  if(total===0) return null;
+  let r=0,g=0,b=0;
+  for(const k in p){ const c=MIX_BASE[k]; r+=c[0]*p[k]; g+=c[1]*p[k]; b+=c[2]*p[k]; }
+  return [Math.round(r/total), Math.round(g/total), Math.round(b/total)];
+}
+
+/* ============ Color math: sRGB -> Lab, ΔE76 ============ */
+function srgbToLin(v){ v/=255; return v<=0.04045 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); }
+function rgbToLab([r,g,b]){
+  const R=srgbToLin(r),G=srgbToLin(g),B=srgbToLin(b);
+  let x=(R*0.4124+G*0.3576+B*0.1805)/0.95047;
+  let y=(R*0.2126+G*0.7152+B*0.0722);
+  let z=(R*0.0193+G*0.1192+B*0.9505)/1.08883;
+  const f=t=>t>0.008856?Math.cbrt(t):(7.787*t+16/116);
+  x=f(x);y=f(y);z=f(z);
+  return [116*y-16, 500*(x-y), 200*(y-z)];
+}
+function deltaE(c1,c2){
+  const a=rgbToLab(c1), b=rgbToLab(c2);
+  return Math.sqrt((a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2);
+}
+
+/* ============ Target generation (always achievable) ============ */
+function randTarget(){
+  const chrom = ['red','green','blue'];
+  const useTwo = Math.random()<0.55;
+  const picks = [chrom[Math.floor(Math.random()*3)]];
+  if(useTwo){ let s; do{ s=chrom[Math.floor(Math.random()*3)]; }while(s===picks[0]); picks.push(s); }
+  const p = { red:0,green:0,blue:0,black:0,white:0 };
+  picks.forEach((k,i)=> p[k] = 3 + Math.floor(Math.random()* (i===0?7:5)) );
+  if(Math.random()<0.7) p.white = Math.floor(Math.random()*7);
+  if(Math.random()<0.45) p.black = Math.floor(Math.random()*4);
+  const rgb = mix(p);
+  return { rgb, name:nameColor(rgb), code:'HL-'+(1000+Math.floor(Math.random()*8999)) };
+}
+function nameColor([r,g,b]){
+  const max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;
+  let h=0; if(d){ if(max===r)h=((g-b)/d)%6; else if(max===g)h=(b-r)/d+2; else h=(r-g)/d+4; h*=60; if(h<0)h+=360;}
+  const l=(max+min)/2/255, s=d?d/(255-Math.abs(max+min-255)):0;
+  let base='Slate';
+  const H=[[15,'Red'],[40,'Amber'],[68,'Ochre'],[95,'Lime'],[160,'Green'],[195,'Teal'],[225,'Azure'],[255,'Blue'],[290,'Indigo'],[330,'Magenta'],[360,'Rose']];
+  for(const [t,n] of H){ if(h<t){ base=n; break; } }
+  if(s<0.14) base = l<0.3?'Graphite':l>0.7?'Pewter':'Slate';
+  let mod='';
+  if(l<0.26) mod='Midnight ';
+  else if(l<0.42) mod='Deep ';
+  else if(l>0.78) mod='Pale ';
+  else if(l>0.64) mod='Soft ';
+  if(s>0.6 && l>0.3 && l<0.7) mod = (Math.random()<0.5?'Vivid ':'Electric ');
+  return mod+base;
+}
+
+/* ============ Game state ============ */
+let target = randTarget();
+let history = [];
+let answered = false;
+
+/* ============ Build mixer UI ============ */
+const pigsEl = document.getElementById('pigs');
+PIGMENTS.forEach(p=>{
+  const row=document.createElement('div'); row.className='pig';
+  const rgb=`rgb(${p.color.join(',')})`;
+  row.innerHTML=`
+    <span class="dot" style="background:${rgb}"></span>
+    <span class="lab">${p.id}</span>
+    <input type="range" min="0" max="10" step="1" value="0" data-id="${p.id}"
+           style="--pc:${rgb}" aria-label="${p.id} paint parts">
+    <span class="val" id="val-${p.id}">0</span>`;
+  pigsEl.appendChild(row);
+});
+pigsEl.addEventListener('input', e=>{
+  if(e.target.type!=='range') return;
+  const id=e.target.dataset.id;
+  parts[id]=+e.target.value;
+  document.getElementById('val-'+id).textContent=e.target.value;
+  refreshMix();
+});
+
+/* ============ DOM refs ============ */
+const $=id=>document.getElementById(id);
+const swatch=$('swatch'), mixRgb=$('mix-rgb'), sprayBtn=$('spray');
+
+function refreshMix(){
+  const c=mix(parts);
+  if(!c){
+    swatch.className='swatch empty'; swatch.style.background='';
+    mixRgb.textContent='add some paint';
+    sprayBtn.disabled=true;
+    setCarColor([90,94,102]); // neutral primer
+    return;
+  }
+  swatch.className='swatch'; swatch.style.background=`rgb(${c.join(',')})`;
+  mixRgb.textContent=`R${c[0]} · G${c[1]} · B${c[2]}`;
+  sprayBtn.disabled=false;
+  setCarColor(c);
+}
+
+/* ============ Target render ============ */
+function loadTarget(){
+  target=randTarget(); answered=false;
+  const rgb=`rgb(${target.rgb.join(',')})`;
+  $('chip').style.background=rgb;
+  $('chip-code').textContent=target.code;
+  $('t-name').textContent=target.name;
+  $('result').classList.remove('show');
+  $('st-round').textContent=history.length+1;
+}
+
+/* ============ Submit / scoring ============ */
+function spray(){
+  const c=mix(parts); if(!c) return;
+  const dE=deltaE(c,target.rgb);
+  const pct=Math.max(0,Math.min(100,Math.round(100-dE*1.12)));
+  const v=verdict(pct);
+
+  $('cmp-target').style.background=`rgb(${target.rgb.join(',')})`;
+  $('cmp-mix').style.background=`rgb(${c.join(',')})`;
+  $('delta').textContent=`ΔE ${dE.toFixed(1)} · you R${c[0]} G${c[1]} B${c[2]}`;
+  const word=$('verdict'); word.textContent=v.word; word.style.color=v.color;
+  $('result').classList.add('show');
+
+  // re-trigger scanline
+  const scan=$('scan'); scan.classList.remove('scanline'); void scan.offsetWidth; scan.classList.add('scanline');
+
+  animateGauge(pct, v.color);
+
+  if(!answered){ history.push(pct); answered=true; updateStats(); }
+  else { history[history.length-1]=pct; updateStats(true); }
+
+  if(pct>=98) toast('FLAWLESS FINISH 🏆');
+}
+function verdict(p){
+  if(p>=98) return {word:'Flawless',color:'#ffd479'};
+  if(p>=92) return {word:'Showroom ready',color:'var(--good)'};
+  if(p>=82) return {word:'Strong match',color:'#8fe0c0'};
+  if(p>=70) return {word:'Close, keep tuning',color:'var(--amber-soft)'};
+  if(p>=50) return {word:'Off-shade',color:'var(--amber)'};
+  return {word:'Back to the booth',color:'var(--bad)'};
+}
+function animateGauge(pct,color){
+  const ring=$('ring'), label=$('pct');
+  const C=289, off=C*(1-pct/100);
+  ring.style.stroke=color;
+  if(reduceMotion){ ring.style.strokeDashoffset=off; label.textContent=pct+'%'; return; }
+  const t0=performance.now(), dur=850;
+  function step(t){
+    const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+    ring.style.strokeDashoffset=C*(1-(pct/100)*e);
+    label.textContent=Math.round(pct*e)+'%';
+    if(k<1) requestAnimationFrame(step); else label.textContent=pct+'%';
+  }
+  requestAnimationFrame(step);
+}
+function updateStats(replace){
+  $('st-last').textContent=history[history.length-1]+'%';
+  $('st-best').textContent=Math.max(...history)+'%';
+  $('st-avg').textContent=Math.round(history.reduce((a,b)=>a+b,0)/history.length)+'%';
+}
+function clearMix(){
+  parts={red:0,green:0,blue:0,black:0,white:0};
+  document.querySelectorAll('#pigs input').forEach(i=>{i.value=0;});
+  PIGMENTS.forEach(p=>$('val-'+p.id).textContent='0');
+  refreshMix();
+}
+function toast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+$('spray').addEventListener('click',spray);
+$('clear').addEventListener('click',clearMix);
+$('next').addEventListener('click',()=>{ loadTarget(); clearMix(); });
+$('tweak').addEventListener('click',()=>$('result').classList.remove('show'));
+
+/* =========================================================
+   THREE.JS — booth, glossy car, live paint
+   ========================================================= */
+let renderer,scene,camera,carPaint,carGroup;
+const canvas=document.getElementById('scene');
+
+function makeEnvMap(){
+  function face(stops,blobs){
+    const s=128, cv=document.createElement('canvas'); cv.width=cv.height=s;
+    const ctx=cv.getContext('2d');
+    const g=ctx.createLinearGradient(0,0,0,s);
+    stops.forEach(([o,c])=>g.addColorStop(o,c));
+    ctx.fillStyle=g; ctx.fillRect(0,0,s,s);
+    (blobs||[]).forEach(([x,y,r,a])=>{
+      const rg=ctx.createRadialGradient(x*s,y*s,0,x*s,y*s,r*s);
+      rg.addColorStop(0,`rgba(255,255,255,${a})`); rg.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=rg; ctx.fillRect(0,0,s,s);
+    });
+    return cv;
+  }
+  const side=()=>face([[0,'#3b414d'],[0.45,'#23272f'],[1,'#0c0d10']],[[0.5,0.28,0.5,0.5]]);
+  const px=side(), nx=side(), pz=side(), nz=side();
+  const py=face([[0,'#aeb6c2'],[1,'#5b626d']],[[0.5,0.5,0.6,0.7]]); // ceiling lights
+  const ny=face([[0,'#15171c'],[1,'#070809']]);
+  const tex=new THREE.CubeTexture([px,nx,py,ny,pz,nz]);
+  tex.needsUpdate=true; tex.encoding=THREE.sRGBEncoding;
+  return tex;
+}
+
+function buildCar(env){
+  const group=new THREE.Group();
+
+  // --- Body silhouette (side profile) extruded across width ---
+  const s=new THREE.Shape();
+  s.moveTo(-2.25,0.18);
+  s.lineTo(-2.25,0.52);
+  s.quadraticCurveTo(-2.1,0.6,-1.7,0.6);
+  s.lineTo(-0.65,0.64);
+  s.quadraticCurveTo(-0.35,0.66,-0.18,0.92);   // windshield base
+  s.lineTo(0.05,1.28);                          // up the windshield
+  s.quadraticCurveTo(0.12,1.36,0.45,1.37);      // roof front
+  s.lineTo(0.95,1.36);                          // roof
+  s.quadraticCurveTo(1.25,1.34,1.42,1.04);      // rear glass
+  s.lineTo(1.78,0.74);
+  s.lineTo(2.25,0.7);                            // tail
+  s.lineTo(2.25,0.2);
+  s.quadraticCurveTo(2.25,0.12,2.12,0.12);
+  s.lineTo(-2.12,0.12);
+  s.quadraticCurveTo(-2.25,0.12,-2.25,0.18);
+
+  const ext=new THREE.ExtrudeGeometry(s,{depth:1.7,bevelEnabled:true,bevelThickness:0.12,bevelSize:0.12,bevelSegments:4,steps:1});
+  ext.translate(0,0,-0.85);
+  ext.computeVertexNormals();
+
+  carPaint=new THREE.MeshPhysicalMaterial({
+    color:0x5a5e66, metalness:0.55, roughness:0.32,
+    clearcoat:1.0, clearcoatRoughness:0.16, envMap:env, envMapIntensity:1.0
+  });
+  const body=new THREE.Mesh(ext,carPaint);
+  body.castShadow=true; body.receiveShadow=true;
+  group.add(body);
+
+  // --- Glass (windshield/rear + side strip) ---
+  const glassMat=new THREE.MeshPhysicalMaterial({color:0x0a0d12,metalness:0.2,roughness:0.08,clearcoat:1,envMap:env,envMapIntensity:1.2,transparent:true,opacity:0.92});
+  const sideGlass=new THREE.Mesh(new THREE.BoxGeometry(1.35,0.42,1.46),glassMat);
+  sideGlass.position.set(0.14,1.08,0); group.add(sideGlass);
+
+  // cabin pillars (painted) to frame the glass
+  const pillarG=new THREE.BoxGeometry(0.1,0.5,1.56);
+  [[-0.5,1.04],[0.78,1.02]].forEach(([x,y])=>{
+    const m=new THREE.Mesh(pillarG,carPaint); m.position.set(x,y,0); m.castShadow=true; group.add(m);
+  });
+
+  // --- Wheels ---
+  const tireMat=new THREE.MeshStandardMaterial({color:0x121316,roughness:0.85,metalness:0.0});
+  const rimMat =new THREE.MeshStandardMaterial({color:0xd7dbe2,roughness:0.25,metalness:0.95,envMap:env});
+  const tireG=new THREE.CylinderGeometry(0.5,0.5,0.34,28);
+  const rimG =new THREE.CylinderGeometry(0.28,0.28,0.36,18);
+  const wheelX=[-1.4,1.45], wheelZ=[0.92,-0.92];
+  wheelX.forEach(x=>wheelZ.forEach(z=>{
+    const w=new THREE.Group();
+    const t=new THREE.Mesh(tireG,tireMat); t.rotation.x=Math.PI/2; t.castShadow=true;
+    const r=new THREE.Mesh(rimG,rimMat); r.rotation.x=Math.PI/2;
+    w.add(t,r); w.position.set(x,0.5,z); group.add(w);
+  }));
+
+  // --- Lights ---
+  const head=new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xfff4d6,emissiveIntensity:1.1,roughness:0.3});
+  const tail=new THREE.MeshStandardMaterial({color:0x330000,emissive:0xff2030,emissiveIntensity:1.0,roughness:0.3});
+  const hG=new THREE.BoxGeometry(0.12,0.16,0.34);
+  [[-2.27,0.6,0.5],[-2.27,0.6,-0.5]].forEach(p=>{const m=new THREE.Mesh(hG,head);m.position.set(...p);group.add(m);});
+  [[2.27,0.62,0.55],[2.27,0.62,-0.55]].forEach(p=>{const m=new THREE.Mesh(hG,tail);m.position.set(...p);group.add(m);});
+
+  return group;
+}
+
+function setCarColor(rgb){
+  if(!carPaint) return;
+  carPaint.color.setRGB(rgb[0]/255,rgb[1]/255,rgb[2]/255).convertSRGBToLinear();
+}
+
+function initThree(){
+  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.outputEncoding=THREE.sRGBEncoding;
+  renderer.toneMapping=THREE.NoToneMapping;
+  renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+
+  scene=new THREE.Scene();
+  const env=makeEnvMap();
+
+  camera=new THREE.PerspectiveCamera(34,1,0.1,100);
+  camera.position.set(5.4,2.7,6.4);
+  camera.lookAt(0,0.7,0);
+
+  // lights
+  scene.add(new THREE.HemisphereLight(0xcfd6e0,0x14161b,0.55));
+  const key=new THREE.DirectionalLight(0xffffff,1.15);
+  key.position.set(5,8,4); key.castShadow=true;
+  key.shadow.mapSize.set(1024,1024);
+  key.shadow.camera.near=1; key.shadow.camera.far=30;
+  key.shadow.camera.left=-7; key.shadow.camera.right=7; key.shadow.camera.top=7; key.shadow.camera.bottom=-7;
+  key.shadow.bias=-0.0004;
+  scene.add(key);
+  const fill=new THREE.DirectionalLight(0x88a0ff,0.4); fill.position.set(-6,3,-4); scene.add(fill);
+  const rim=new THREE.PointLight(0xffd9a0,0.6,40); rim.position.set(-3,4,6); scene.add(rim);
+
+  // floor
+  const floorMat=new THREE.MeshStandardMaterial({color:0x0c0d10,roughness:0.55,metalness:0.3,envMap:env,envMapIntensity:0.35});
+  const floor=new THREE.Mesh(new THREE.CircleGeometry(14,64),floorMat);
+  floor.rotation.x=-Math.PI/2; floor.position.y=0; floor.receiveShadow=true;
+  scene.add(floor);
+
+  carGroup=buildCar(env);
+  scene.add(carGroup);
+
+  refreshMix();
+  resize();
+  animate();
+}
+
+/* drag-to-rotate + idle spin */
+let rotY=-0.5, rotX=0.05, targetRotY=-0.5, targetRotX=0.05;
+let dragging=false, lastX=0, lastY=0, idle=0;
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{
+  if(!dragging) return; idle=0;
+  targetRotY+=(e.clientX-lastX)*0.008;
+  targetRotX+=(e.clientY-lastY)*0.006;
+  targetRotX=Math.max(-0.25,Math.min(0.5,targetRotX));
+  lastX=e.clientX; lastY=e.clientY;
+});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>canvas.addEventListener(ev,()=>dragging=false));
+
+function animate(){
+  requestAnimationFrame(animate);
+  if(!dragging){ idle++; if(idle>90 && !reduceMotion) targetRotY+=0.0016; }
+  rotY+=(targetRotY-rotY)*0.08;
+  rotX+=(targetRotX-rotX)*0.08;
+  if(carGroup){ carGroup.rotation.y=rotY; carGroup.rotation.x=rotX; }
+  renderer.render(scene,camera);
+}
+
+function resize(){
+  const r=canvas.parentElement.getBoundingClientRect();
+  renderer.setSize(r.width,r.height,false);
+  camera.aspect=r.width/r.height; camera.updateProjectionMatrix();
+}
+window.addEventListener('resize',resize);
+
+/* ============ Boot ============ */
+loadTarget();
+initThree();
+</script>
+</body>
+</html>
