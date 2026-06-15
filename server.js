@@ -3,6 +3,7 @@
 // Express server: serves the static site and JSON APIs.
 // ============================================================
 
+
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -13,6 +14,8 @@ const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 const LIBRARY_PATH = path.join(DATA_DIR, 'games.json');
 const OBD_CODES_PATH = path.join(DATA_DIR, 'obd-codes.json');
+
+require('dotenv').config()
 
 function readJson(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8');

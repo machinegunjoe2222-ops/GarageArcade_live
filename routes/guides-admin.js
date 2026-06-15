@@ -34,9 +34,10 @@ const path = require('path');
 const sanitizeHtml = require('sanitize-html');
 
 const { renderGuidePage, extractBodyHtml } = require('../lib/guide-page');
-
+const adminAuth = require('../lib/admin-auth');
 const router = express.Router();
-
+router.use('/admin/guides', adminAuth);
+router.use('/api/admin/guides', adminAuth);
 const GUIDES_DIR = path.join(__dirname, '..', 'public', 'guides');
 const GUIDES_JSON = path.join(__dirname, '..', 'data', 'guides.json');
 const SLUG_RE = /^[a-z0-9-]+$/i;
@@ -249,5 +250,6 @@ router.delete('/api/admin/guides/:slug', (req, res) => {
 
   res.json({ ok: true });
 });
+
 
 module.exports = router;
