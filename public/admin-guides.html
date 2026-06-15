@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage Arcade — Guide Editor</title>
+
+<!-- ================================================================
+     GUIDE EDITOR — integration notes
+
+     Served at GET /admin/guides by routes/guides-admin.js.
+
+     Saving a guide here writes:
+       - public/guides/<slug>/index.html   (full, standalone article
+         page — title, meta description, canonical link, Article
+         structured data, nav/footer, and the article body, built by
+         lib/guide-page.js)
+       - data/guides.json                  (homepage Knowledge Base
+         card, read by lib/cards.js for SSR and public/script.js for
+         the client-side render)
+
+     Remember: protect /admin/guides and /api/admin/* with your own
+     authentication before this goes live (see the comment at the
+     top of routes/guides-admin.js).
+     ================================================================ -->
+
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:        #14161b;
+  --bg-deep:   #0b0c0f;
+  --panel:     #1c1f25;
+  --panel-2:   #232730;
+  --metal-1:   #2c313a;
+  --metal-2:   #525a66;
+  --metal-3:   #9aa4af;
+  --chrome:    #eef1f4;
+  --line:      rgba(255,255,255,0.07);
+  --line-strong: rgba(255,255,255,0.14);
+  --orange:    #ff5e2c;
+  --orange-soft: rgba(255,94,44,.35);
+  --blue:      #2bd6ff;
+  --blue-soft: rgba(43,214,255,.3);
+  --amber:     #ffb627;
+  --text:      #e7eaee;
+  --text-dim:  #919aa3;
+  --text-faint:#5b626c;
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 14px;
+}
+body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body); }
+.ga-shell{ max-width:1400px; margin:0 auto; padding: 40px clamp(20px,5vw,56px) 80px; }
+
+.ga-head{ margin-bottom: 30px; max-width: 70ch; }
+.ga-kicker{
+  font-family: var(--font-mono);
+  font-size:.75rem; letter-spacing:.24em; text-transform:uppercase;
+  color: var(--orange); margin:0 0 8px;
+}
+.ga-head h1{
+  font-family: var(--font-display); font-weight:700;
+  font-size: clamp(1.9rem, 4.2vw, 2.6rem);
+  letter-spacing:.04em; margin:0 0 10px; color: var(--chrome);
+}
+.ga-head p{ color: var(--text-dim); margin:0; }
+
+.ga-console{
+  padding: 18px;
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,0) 38%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 2px, transparent 2px 6px),
+    var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 70px rgba(0,0,0,.45);
+}
+
+.ga-layout{
+  display:grid;
+  grid-template-columns: minmax(220px, .8fr) minmax(0, 2.2fr);
+  gap: 18px;
+}
+@media (max-width: 980px){
+  .ga-layout{ grid-template-columns: 1fr; }
+}
+
+/* ----- Sidebar list ----- */
+.ga-sidebar{
+  border-radius: 16px;
+  background: rgba(11,12,15,.6);
+  border: 1px solid var(--line);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  max-height: 900px;
+}
+.ga-sidebar-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.ga-sidebar-head span{
+  font-family: var(--font-mono); font-size:.7rem; letter-spacing:.18em;
+  text-transform:uppercase; color: var(--text-faint);
+}
+.ga-newbtn{
+  font-family: var(--font-display); font-weight:700; letter-spacing:.1em;
+  font-size:.74rem; text-transform:uppercase;
+  padding: 7px 12px; border-radius: 7px;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(180deg, var(--chrome), var(--metal-3));
+  color: var(--bg-deep); cursor:pointer;
+}
+.ga-newbtn:hover{ filter: brightness(1.08); }
+
+.ga-list{ list-style:none; margin:0; padding:0; overflow:auto; }
+.ga-list li{
+  display:flex; flex-direction:column; gap:4px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  cursor:pointer;
+  transition: background .12s ease;
+}
+.ga-list li:hover{ background: rgba(255,94,44,.08); }
+.ga-list li.active{ background: rgba(255,94,44,.14); }
+.ga-list .row1{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.ga-list .slug{
+  font-family: var(--font-mono); font-size:.85rem; color: var(--chrome);
+  word-break: break-all;
+}
+.ga-list .words{
+  font-family: var(--font-mono); font-size:.7rem; color: var(--text-faint);
+  white-space:nowrap;
+}
+.ga-list .title{
+  font-family: var(--font-body); font-size:.78rem; color: var(--text-dim);
+}
+.ga-badges{ display:flex; gap:6px; flex-wrap:wrap; }
+.ga-badge{
+  font-family: var(--font-mono); font-size:.62rem; letter-spacing:.1em;
+  text-transform:uppercase; padding: 2px 7px; border-radius: 999px;
+  border: 1px solid var(--line-strong); color: var(--text-faint);
+}
+.ga-badge.on{ color: var(--blue); border-color: var(--blue-soft); }
+.ga-empty{
+  padding: 24px 16px; text-align:center;
+  font-family: var(--font-mono); font-size:.78rem;
+  color: var(--text-faint); letter-spacing:.05em;
+}
+
+/* ----- Editor panel ----- */
+.ga-editor{
+  border-radius: 16px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  padding: 18px;
+  display:flex; flex-direction:column; gap:18px;
+}
+.ga-editor.is-empty{
+  align-items:center; justify-content:center; min-height: 300px;
+  color: var(--text-faint); font-family: var(--font-mono);
+  letter-spacing:.18em; text-transform:uppercase; font-size:.85rem;
+  text-align:center;
+}
+
+.ga-section{
+  display:flex; flex-direction:column; gap:14px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(11,12,15,.4);
+}
+.ga-section-title{
+  font-family: var(--font-mono); font-size:.7rem; letter-spacing:.22em;
+  text-transform:uppercase; color: var(--orange); margin:0;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+
+.ga-row{ display:grid; gap:14px; }
+.ga-row.two{ grid-template-columns: 1fr 1fr; }
+.ga-row.three{ grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 760px){
+  .ga-row.two, .ga-row.three{ grid-template-columns: 1fr; }
+}
+
+.ga-field{ display:flex; flex-direction:column; gap:8px; }
+.ga-field label{
+  font-family: var(--font-mono); font-size:.68rem;
+  letter-spacing:.18em; text-transform:uppercase; color: var(--text-faint);
+  display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+}
+.ga-field label .counter{ color: var(--text-faint); text-transform:none; letter-spacing:.05em; }
+.ga-field label .counter.warn{ color: var(--amber); }
+.ga-field label .counter.bad{ color: var(--orange); }
+.ga-field input[type="text"],
+.ga-field textarea{
+  font-family: var(--font-mono); font-size:.92rem;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: rgba(11,12,15,.78);
+  color: var(--text);
+  padding: 12px 14px;
+  outline:none;
+  box-sizing: border-box;
+}
+.ga-field textarea{
+  font-family: var(--font-body);
+  min-height: 84px; resize:vertical; line-height:1.5;
+}
+.ga-field input[type="text"]:focus,
+.ga-field textarea:focus{
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-soft);
+}
+.ga-field input[type="text"]:disabled{
+  color: var(--text-dim); cursor:not-allowed;
+}
+.ga-hint{
+  font-family: var(--font-mono); font-size:.68rem; color: var(--text-faint);
+}
+
+/* ----- SERP preview ----- */
+.ga-serp{
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  padding: 14px 16px;
+  font-family: arial, sans-serif;
+}
+.ga-serp-url{ color: var(--text-dim); font-size:.78rem; letter-spacing:.02em; }
+.ga-serp-title{ color: var(--blue); font-size:1.05rem; margin: 2px 0 4px; line-height:1.3; }
+.ga-serp-desc{ color: var(--text-dim); font-size:.85rem; line-height:1.4; }
+
+/* ----- Toolbar ----- */
+.ga-toolbar{
+  display:flex; flex-wrap:wrap; gap:6px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: rgba(11,12,15,.6);
+}
+.ga-toolbar .sep{
+  width:1px; align-self:stretch; background: var(--line-strong); margin: 0 2px;
+}
+.ga-toolbar button,
+.ga-toolbar select{
+  font-family: var(--font-mono); font-size:.78rem;
+  border-radius: 7px;
+  border: 1px solid var(--line-strong);
+  background: var(--metal-1);
+  color: var(--text);
+  padding: 7px 10px;
+  cursor:pointer;
+  line-height:1;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+}
+.ga-toolbar select{ padding: 6px 8px; }
+.ga-toolbar button:hover{ background: var(--metal-2); color: var(--chrome); }
+.ga-toolbar button.active{
+  background: var(--orange); border-color: var(--orange); color: var(--bg-deep);
+}
+.ga-toolbar button strong, .ga-toolbar button em, .ga-toolbar button u, .ga-toolbar button s{
+  font-family: var(--font-body);
+}
+
+/* ----- Editor content area ----- */
+.ga-content{
+  min-height: 420px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: rgba(11,12,15,.78);
+  padding: 22px clamp(16px, 3vw, 40px);
+  outline:none;
+  color: var(--text-dim);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+.ga-content:focus{
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-soft);
+}
+.ga-content p{ margin: 0 0 1.2em; }
+.ga-content p:last-child{ margin-bottom:0; }
+.ga-content h2, .ga-content h3, .ga-content h4{
+  font-family: var(--font-display); color: var(--chrome); letter-spacing:.03em;
+  margin: 1.4em 0 .6em;
+}
+.ga-content h2:first-child, .ga-content h3:first-child, .ga-content h4:first-child{ margin-top:0; }
+.ga-content ul, .ga-content ol{ margin: 0 0 1.2em; padding-left: 1.4em; }
+.ga-content li{ margin-bottom:.4em; }
+.ga-content blockquote{
+  margin: 0 0 1.2em; padding: 14px 18px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255,94,44,.06); border-radius: 0 10px 10px 0;
+  color: var(--text);
+}
+.ga-content a{ color: var(--blue); }
+.ga-content code{
+  font-family: var(--font-mono); background: rgba(255,255,255,.08);
+  padding: 2px 6px; border-radius:4px; font-size:.9em; color: var(--chrome);
+}
+.ga-content pre{
+  font-family: var(--font-mono); background: rgba(0,0,0,.4);
+  border: 1px solid var(--line); border-radius:10px; padding:14px 16px;
+  overflow-x:auto; margin: 0 0 1.2em;
+}
+.ga-content pre code{ background:none; padding:0; }
+.ga-content img{ max-width:100%; border-radius:12px; border:1px solid var(--line); display:block; margin: 0 auto; }
+.ga-content figure{ margin: 0 0 1.4em; }
+.ga-content figcaption{ font-family: var(--font-mono); font-size:.78rem; color: var(--text-faint); text-align:center; margin-top:8px; }
+.ga-content hr{ border:none; border-top:1px solid var(--line); margin: 2em 0; }
+.ga-content table{ width:100%; border-collapse: collapse; margin: 0 0 1.4em; }
+.ga-content th, .ga-content td{ border:1px solid var(--line); padding:8px 12px; text-align:left; }
+
+.ga-source{
+  width:100%; min-height: 420px; resize:vertical;
+  font-family: var(--font-mono); font-size:.85rem; line-height:1.6;
+  background: rgba(11,12,15,.78);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px; color: var(--text); padding: 16px;
+  outline:none; box-sizing: border-box;
+}
+.ga-source:focus{
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-soft);
+}
+.ga-source.hidden, .ga-content.hidden{ display:none; }
+
+.ga-meta{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  flex-wrap:wrap;
+  font-family: var(--font-mono); font-size:.72rem;
+  color: var(--text-faint); letter-spacing:.08em;
+}
+.ga-meta .live{ color: var(--blue); }
+
+.ga-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.ga-actions button, .ga-actions a.ga-view{
+  font-family: var(--font-display);
+  font-weight:700; letter-spacing:.12em; font-size:.82rem;
+  text-transform:uppercase;
+  padding: 12px 22px; border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  cursor:pointer;
+  text-decoration:none;
+  transition: filter .15s ease, transform .15s ease;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.ga-actions button:active{ transform: translateY(1px); }
+.ga-save{
+  color: var(--bg-deep);
+  background: linear-gradient(180deg, var(--chrome), var(--metal-3));
+}
+.ga-save:hover{ filter: brightness(1.08); box-shadow: 0 6px 18px var(--orange-soft); }
+.ga-delete{
+  color: var(--text-dim); background: transparent;
+}
+.ga-delete:hover{ color: var(--orange); border-color: var(--orange-soft); }
+.ga-view{
+  color: var(--blue); background: transparent; border-color: var(--blue-soft);
+}
+.ga-view:hover{ color: var(--chrome); border-color: var(--blue); }
+
+.ga-status{
+  font-family: var(--font-mono); font-size:.78rem; letter-spacing:.05em;
+  min-height: 1.2em;
+}
+.ga-status.ok{ color: var(--blue); }
+.ga-status.err{ color: var(--orange); }
+</style>
+</head>
+<body>
+
+<div class="ga-shell">
+
+  <div class="ga-head">
+    <p class="ga-kicker">// BAY 05</p>
+    <h1>GUIDE EDITOR</h1>
+    <p>Write a guide here and it publishes a complete, SEO-ready article page at <code>/guides/&lt;slug&gt;/</code> and adds its card to the homepage Knowledge Base — all in one go.</p>
+  </div>
+
+  <div class="ga-console">
+    <div class="ga-layout">
+
+      <!-- Sidebar -->
+      <div class="ga-sidebar">
+        <div class="ga-sidebar-head">
+          <span>Guides</span>
+          <button class="ga-newbtn" id="newBtn" type="button">+ New</button>
+        </div>
+        <ul class="ga-list" id="guideList">
+          <li class="ga-empty">Loading&hellip;</li>
+        </ul>
+      </div>
+
+      <!-- Editor -->
+      <div class="ga-editor" id="editor">
+        <div class="ga-empty-msg">Select a guide, or create a new one</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var guideList = document.getElementById('guideList');
+  var newBtn = document.getElementById('newBtn');
+  var editor = document.getElementById('editor');
+
+  var currentSlug = null;
+  var guides = [];
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function escapeAttr(s){
+    return escapeHtml(s).replace(/"/g,'&quot;');
+  }
+
+  function textFromHtml(html){
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html || '';
+    return tmp.textContent || tmp.innerText || '';
+  }
+
+  function wordCount(html){
+    var t = textFromHtml(html).trim();
+    return t ? t.split(/\s+/).length : 0;
+  }
+
+  function readingTime(words){
+    return Math.max(1, Math.round(words / 200));
+  }
+
+  // ---- Sidebar rendering ----
+  function renderList(){
+    if (!guides.length){
+      guideList.innerHTML = '<li class="ga-empty">No guides yet \u2014 create one</li>';
+      return;
+    }
+    guideList.innerHTML = guides.map(function(g){
+      var active = g.slug === currentSlug ? ' active' : '';
+      var label = g.title || g.slug;
+      return '<li class="' + active.trim() + '" data-slug="' + escapeAttr(g.slug) + '">' +
+        '<div class="row1">' +
+          '<span class="slug">' + escapeHtml(g.slug) + '</span>' +
+          '<span class="words">' + g.words + ' wd</span>' +
+        '</div>' +
+        '<span class="title">' + escapeHtml(label) + '</span>' +
+        '<div class="ga-badges">' +
+          '<span class="ga-badge' + (g.hasCard ? ' on' : '') + '">Card</span>' +
+          '<span class="ga-badge' + (g.hasPage ? ' on' : '') + '">Page</span>' +
+        '</div>' +
+        '</li>';
+    }).join('');
+
+    Array.prototype.forEach.call(guideList.querySelectorAll('li[data-slug]'), function(li){
+      li.addEventListener('click', function(){
+        openGuide(li.getAttribute('data-slug'));
+      });
+    });
+  }
+
+  function loadGuideList(selectAfter){
+    return fetch('/api/admin/guides')
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        guides = data.guides || [];
+        renderList();
+        if (selectAfter) openGuide(selectAfter);
+      })
+      .catch(function(){
+        guideList.innerHTML = '<li class="ga-empty">Could not load guide list</li>';
+      });
+  }
+
+  // ---- Editor rendering ----
+  function renderEditor(slug, bodyHtml, isNewPage, card, isNewCard){
+    currentSlug = slug;
+    renderList();
+
+    card = card || {};
+    var isNew = isNewPage && isNewCard;
+    var content = bodyHtml || '<p>Start writing&hellip;</p>';
+
+    editor.innerHTML =
+      '<div class="ga-section">' +
+        '<p class="ga-section-title">SEO &amp; Card</p>' +
+
+        '<div class="ga-row">' +
+          '<div class="ga-field">' +
+            '<label>Slug <span class="ga-hint">URL: /guides/<span id="slugPreview">' + escapeHtml(slug || 'your-slug') + '</span>/</span></label>' +
+            '<input type="text" id="slugInput" value="' + escapeAttr(slug) + '"' + (isNew ? '' : ' disabled') + ' placeholder="e.g. engine-basics">' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="ga-row two">' +
+          '<div class="ga-field">' +
+            '<label>Title (H1 &amp; &lt;title&gt;) <span class="counter" id="titleCounter">0 / 60</span></label>' +
+            '<input type="text" id="titleInput" value="' + escapeAttr(card.title) + '" placeholder="e.g. How Timing Belts Work">' +
+          '</div>' +
+          '<div class="ga-field">' +
+            '<label>Category</label>' +
+            '<input type="text" id="categoryInput" value="' + escapeAttr(card.category || 'Mechanical') + '" placeholder="e.g. Diagnostics">' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="ga-field">' +
+          '<label>Tagline <span class="ga-hint">short hook shown under the H1 and on the card</span></label>' +
+          '<input type="text" id="taglineInput" value="' + escapeAttr(card.tagline) + '" placeholder="e.g. The quiet belt keeping every valve on schedule">' +
+        '</div>' +
+
+        '<div class="ga-field">' +
+          '<label>Meta description <span class="counter" id="descCounter">0 / 160</span></label>' +
+          '<textarea id="descriptionInput" placeholder="1-2 sentences for search results and the homepage card">' + escapeHtml(card.description) + '</textarea>' +
+        '</div>' +
+
+        '<div class="ga-serp">' +
+          '<div class="ga-serp-url" id="serpUrl">garagearcade.com &rsaquo; guides &rsaquo; ' + escapeHtml(slug || 'your-slug') + '</div>' +
+          '<div class="ga-serp-title" id="serpTitle">' + escapeHtml(card.title || 'Guide title') + ' — Garage Arcade</div>' +
+          '<div class="ga-serp-desc" id="serpDesc">' + escapeHtml(card.description || 'Meta description preview appears here.') + '</div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="ga-section">' +
+        '<p class="ga-section-title">' +
+          '<span>Article Content</span>' +
+          '<button type="button" id="sourceToggle" style="font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid var(--line-strong);background:var(--metal-1);color:var(--text);cursor:pointer;">View HTML</button>' +
+        '</p>' +
+
+        '<div class="ga-toolbar" id="toolbar">' +
+          '<button type="button" data-cmd="undo" title="Undo">&#8634;</button>' +
+          '<button type="button" data-cmd="redo" title="Redo">&#8635;</button>' +
+          '<span class="sep"></span>' +
+          '<select id="blockSelect" title="Paragraph style">' +
+            '<option value="p">Paragraph</option>' +
+            '<option value="h2">Heading 2</option>' +
+            '<option value="h3">Heading 3</option>' +
+            '<option value="h4">Heading 4</option>' +
+            '<option value="blockquote">Quote</option>' +
+            '<option value="pre">Code block</option>' +
+          '</select>' +
+          '<span class="sep"></span>' +
+          '<button type="button" data-cmd="bold" title="Bold"><strong>B</strong></button>' +
+          '<button type="button" data-cmd="italic" title="Italic"><em>I</em></button>' +
+          '<button type="button" data-cmd="underline" title="Underline"><u>U</u></button>' +
+          '<button type="button" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>' +
+          '<button type="button" data-cmd="code" title="Inline code">&lt;/&gt;</button>' +
+          '<span class="sep"></span>' +
+          '<button type="button" data-cmd="insertUnorderedList" title="Bullet list">&#8226; List</button>' +
+          '<button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>' +
+          '<span class="sep"></span>' +
+          '<button type="button" data-cmd="link" title="Insert link">Link</button>' +
+          '<button type="button" data-cmd="unlink" title="Remove link">Unlink</button>' +
+          '<button type="button" data-cmd="image" title="Insert image">Image</button>' +
+          '<button type="button" data-cmd="hr" title="Horizontal rule">&mdash;</button>' +
+          '<span class="sep"></span>' +
+          '<button type="button" data-cmd="removeFormat" title="Clear formatting">Clear</button>' +
+        '</div>' +
+
+        '<div class="ga-content" id="contentArea" contenteditable="true">' + content + '</div>' +
+        '<textarea class="ga-source hidden" id="sourceArea" spellcheck="false">' + escapeHtml(content) + '</textarea>' +
+
+        '<div class="ga-meta">' +
+          '<span>Words: <span class="live" id="wordCount">' + wordCount(content) + '</span></span>' +
+          '<span>Est. reading time: <span class="live" id="readTime">' + readingTime(wordCount(content)) + ' min</span></span>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="ga-actions">' +
+        '<button class="ga-save" id="saveBtn" type="button">SAVE GUIDE</button>' +
+        (isNew ? '' : '<a class="ga-view" id="viewLink" href="/guides/' + encodeURIComponent(slug) + '/" target="_blank" rel="noopener">VIEW PAGE</a>') +
+        (isNew ? '' : '<button class="ga-delete" id="deleteBtn" type="button">DELETE</button>') +
+      '</div>' +
+      '<div class="ga-status" id="status"></div>';
+
+    var slugInput = document.getElementById('slugInput');
+    var slugPreview = document.getElementById('slugPreview');
+    var titleInput = document.getElementById('titleInput');
+    var taglineInput = document.getElementById('taglineInput');
+    var categoryInput = document.getElementById('categoryInput');
+    var descriptionInput = document.getElementById('descriptionInput');
+    var titleCounter = document.getElementById('titleCounter');
+    var descCounter = document.getElementById('descCounter');
+    var serpUrl = document.getElementById('serpUrl');
+    var serpTitle = document.getElementById('serpTitle');
+    var serpDesc = document.getElementById('serpDesc');
+    var contentArea = document.getElementById('contentArea');
+    var sourceArea = document.getElementById('sourceArea');
+    var sourceToggle = document.getElementById('sourceToggle');
+    var toolbar = document.getElementById('toolbar');
+    var blockSelect = document.getElementById('blockSelect');
+    var wordCountEl = document.getElementById('wordCount');
+    var readTimeEl = document.getElementById('readTime');
+    var saveBtn = document.getElementById('saveBtn');
+    var deleteBtn = document.getElementById('deleteBtn');
+    var status = document.getElementById('status');
+    var sourceMode = false;
+
+    function updateCounters(){
+      var tLen = titleInput.value.length;
+      titleCounter.textContent = tLen + ' / 60';
+      titleCounter.className = 'counter' + (tLen > 60 ? ' bad' : (tLen > 50 ? ' warn' : ''));
+
+      var dLen = descriptionInput.value.length;
+      descCounter.textContent = dLen + ' / 160';
+      descCounter.className = 'counter' + (dLen > 160 ? ' bad' : (dLen > 150 ? ' warn' : ''));
+    }
+
+    function updateSerp(){
+      var s = (isNew ? slugInput.value.trim().toLowerCase() : slug) || 'your-slug';
+      serpUrl.textContent = 'garagearcade.com \u203a guides \u203a ' + s;
+      serpTitle.textContent = (titleInput.value.trim() || 'Guide title') + ' \u2014 Garage Arcade';
+      serpDesc.textContent = descriptionInput.value.trim() || 'Meta description preview appears here.';
+      slugPreview.textContent = s;
+    }
+
+    function updateWordCount(){
+      var html = sourceMode ? sourceArea.value : contentArea.innerHTML;
+      var words = wordCount(html);
+      wordCountEl.textContent = words;
+      readTimeEl.textContent = readingTime(words) + ' min';
+    }
+
+    titleInput.addEventListener('input', function(){ updateCounters(); updateSerp(); });
+    descriptionInput.addEventListener('input', function(){ updateCounters(); updateSerp(); });
+    if (isNew){
+      slugInput.addEventListener('input', function(){
+        slugInput.value = slugInput.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+        updateSerp();
+      });
+    }
+    updateCounters();
+    updateSerp();
+    updateWordCount();
+
+    // ---- Toggle between rich editor and raw HTML source ----
+    sourceToggle.addEventListener('click', function(){
+      if (!sourceMode){
+        sourceArea.value = contentArea.innerHTML.trim();
+        contentArea.classList.add('hidden');
+        sourceArea.classList.remove('hidden');
+        toolbar.style.opacity = '.4';
+        toolbar.style.pointerEvents = 'none';
+        sourceToggle.textContent = 'View Editor';
+        sourceMode = true;
+      } else {
+        contentArea.innerHTML = sourceArea.value;
+        contentArea.classList.remove('hidden');
+        sourceArea.classList.add('hidden');
+        toolbar.style.opacity = '';
+        toolbar.style.pointerEvents = '';
+        sourceToggle.textContent = 'View HTML';
+        sourceMode = false;
+      }
+      updateWordCount();
+    });
+
+    sourceArea.addEventListener('input', updateWordCount);
+    contentArea.addEventListener('input', updateWordCount);
+
+    // ---- Toolbar commands ----
+    function focusContent(){
+      contentArea.focus();
+    }
+
+    function execAndRefresh(cmd, value){
+      focusContent();
+      document.execCommand(cmd, false, value);
+      updateWordCount();
+      updateToolbarState();
+    }
+
+    function promptForLink(){
+      focusContent();
+      var sel = document.getSelection();
+      if (!sel || sel.isCollapsed){
+        status.textContent = 'Select some text first, then click Link.';
+        status.className = 'ga-status err';
+        return;
+      }
+      var url = window.prompt('Link URL (https://...)', 'https://');
+      if (!url) return;
+      document.execCommand('createLink', false, url);
+      updateWordCount();
+    }
+
+    function promptForImage(){
+      focusContent();
+      var url = window.prompt('Image URL (https://... or /path/to/image.jpg)', 'https://');
+      if (!url) return;
+      var alt = window.prompt('Alt text (describe the image for SEO & accessibility)', '') || '';
+      var caption = window.prompt('Caption (optional, shown under the image)', '') || '';
+
+      var html = '<figure><img src="' + escapeAttr(url) + '" alt="' + escapeAttr(alt) + '">' +
+        (caption ? '<figcaption>' + escapeHtml(caption) + '</figcaption>' : '') +
+        '</figure><p><br></p>';
+      document.execCommand('insertHTML', false, html);
+      updateWordCount();
+    }
+
+    function toggleInlineCode(){
+      focusContent();
+      var sel = document.getSelection();
+      if (!sel || sel.isCollapsed){
+        status.textContent = 'Select some text first, then click </>.';
+        status.className = 'ga-status err';
+        return;
+      }
+      var range = sel.getRangeAt(0);
+      var text = range.toString();
+      document.execCommand('insertHTML', false, '<code>' + escapeHtml(text) + '</code>');
+      updateWordCount();
+    }
+
+    function insertCodeBlock(){
+      focusContent();
+      document.execCommand('insertHTML', false, '<pre><code>your code here</code></pre><p><br></p>');
+      updateWordCount();
+    }
+
+    function insertHr(){
+      focusContent();
+      document.execCommand('insertHorizontalRule');
+      updateWordCount();
+    }
+
+    function applyBlock(tag){
+      focusContent();
+      if (tag === 'pre'){
+        insertCodeBlock();
+        return;
+      }
+      document.execCommand('formatBlock', false, '<' + tag + '>');
+      updateWordCount();
+    }
+
+    toolbar.addEventListener('click', function(e){
+      var btn = e.target.closest('button[data-cmd]');
+      if (!btn) return;
+      var cmd = btn.getAttribute('data-cmd');
+      status.textContent = '';
+
+      switch (cmd){
+        case 'bold': execAndRefresh('bold'); break;
+        case 'italic': execAndRefresh('italic'); break;
+        case 'underline': execAndRefresh('underline'); break;
+        case 'strikeThrough': execAndRefresh('strikeThrough'); break;
+        case 'insertUnorderedList': execAndRefresh('insertUnorderedList'); break;
+        case 'insertOrderedList': execAndRefresh('insertOrderedList'); break;
+        case 'removeFormat':
+          execAndRefresh('removeFormat');
+          document.execCommand('formatBlock', false, '<p>');
+          break;
+        case 'undo': execAndRefresh('undo'); break;
+        case 'redo': execAndRefresh('redo'); break;
+        case 'link': promptForLink(); break;
+        case 'unlink': execAndRefresh('unlink'); break;
+        case 'image': promptForImage(); break;
+        case 'code': toggleInlineCode(); break;
+        case 'hr': insertHr(); break;
+      }
+    });
+
+    blockSelect.addEventListener('change', function(){
+      applyBlock(blockSelect.value);
+      blockSelect.value = 'p';
+    });
+
+    function updateToolbarState(){
+      Array.prototype.forEach.call(toolbar.querySelectorAll('button[data-cmd]'), function(btn){
+        var cmd = btn.getAttribute('data-cmd');
+        if (['bold','italic','underline','strikeThrough','insertUnorderedList','insertOrderedList'].indexOf(cmd) === -1) return;
+        try {
+          btn.classList.toggle('active', document.queryCommandState(cmd));
+        } catch (e){ /* ignore */ }
+      });
+    }
+    document.addEventListener('selectionchange', function(){
+      if (document.activeElement === contentArea) updateToolbarState();
+    });
+
+    // ---- keyboard shortcuts inside the editor ----
+    contentArea.addEventListener('keydown', function(e){
+      if (!(e.ctrlKey || e.metaKey)) return;
+      var key = e.key.toLowerCase();
+      if (key === 'b'){ e.preventDefault(); execAndRefresh('bold'); }
+      else if (key === 'i'){ e.preventDefault(); execAndRefresh('italic'); }
+      else if (key === 'u'){ e.preventDefault(); execAndRefresh('underline'); }
+      else if (key === 'k'){ e.preventDefault(); promptForLink(); }
+    });
+
+    // ---- Save ----
+    saveBtn.addEventListener('click', function(){
+      var slugToSave = isNew ? slugInput.value.trim().toLowerCase() : slug;
+
+      if (!/^[a-z0-9-]+$/i.test(slugToSave)){
+        status.textContent = 'Slug must contain only letters, numbers, and hyphens.';
+        status.className = 'ga-status err';
+        return;
+      }
+
+      var titleVal = titleInput.value.trim();
+      if (!titleVal){
+        status.textContent = 'Please give the guide a title.';
+        status.className = 'ga-status err';
+        return;
+      }
+
+      // If currently in source view, sync it back before saving
+      if (sourceMode){
+        contentArea.innerHTML = sourceArea.value;
+      }
+
+      status.textContent = 'Saving\u2026';
+      status.className = 'ga-status';
+
+      var payload = {
+        bodyHtml: contentArea.innerHTML,
+        card: {
+          title: titleVal,
+          tagline: taglineInput.value,
+          description: descriptionInput.value,
+          category: categoryInput.value
+        }
+      };
+
+      fetch('/api/admin/guides/' + encodeURIComponent(slugToSave), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function(res){
+          if (!res.ok) return res.json().then(function(d){ throw new Error(d.error || 'Save failed'); });
+          return res.json();
+        })
+        .then(function(data){
+          status.textContent = 'Saved \u2014 page published at ' + (data.url || ('/guides/' + slugToSave + '/')) + ' and homepage card updated.';
+          status.className = 'ga-status ok';
+          loadGuideList(slugToSave);
+        })
+        .catch(function(err){
+          status.textContent = err.message || 'Could not save.';
+          status.className = 'ga-status err';
+        });
+    });
+
+    if (deleteBtn){
+      deleteBtn.addEventListener('click', function(){
+        if (!confirm('Delete "' + slug + '"? This removes its published page AND its homepage card. This cannot be undone.')) return;
+
+        fetch('/api/admin/guides/' + encodeURIComponent(slug), { method: 'DELETE' })
+          .then(function(res){
+            if (!res.ok) return res.json().then(function(d){ throw new Error(d.error || 'Delete failed'); });
+            return res.json();
+          })
+          .then(function(){
+            currentSlug = null;
+            editor.innerHTML = '<div class="ga-empty-msg">Select a guide, or create a new one</div>';
+            loadGuideList();
+          })
+          .catch(function(err){
+            status.textContent = err.message || 'Could not delete.';
+            status.className = 'ga-status err';
+          });
+      });
+    }
+  }
+
+  function openGuide(slug){
+    fetch('/api/admin/guides/' + encodeURIComponent(slug))
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        renderEditor(slug, data.bodyHtml || '', !!data.isNewPage, data.card, !!data.isNewCard);
+      });
+  }
+
+  newBtn.addEventListener('click', function(){
+    currentSlug = null;
+    renderList();
+    renderEditor('', '', true, {}, true);
+    var slugInput = document.getElementById('slugInput');
+    slugInput.placeholder = 'e.g. engine-basics';
+    slugInput.focus();
+  });
+
+  loadGuideList();
+})();
+</script>
+
+</body>
+</html>

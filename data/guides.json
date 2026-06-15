@@ -1,0 +1,34 @@
+[
+  {
+    "id": "how-obd2-works",
+    "title": "How OBD2 Works",
+    "tagline": "Reading the car's own diagnostic language",
+    "description": "An overview of the OBD2 standard: how the ECU reports faults, what trouble codes mean, and how scan tools talk to your car.",
+    "category": "Diagnostics",
+    "url": "/guides/how-obd2-works/"
+  },
+  {
+    "id": "how-ecus-work",
+    "title": "How ECUs Work",
+    "tagline": "The brain behind every modern engine",
+    "description": "What an engine control unit actually does, the sensors it listens to, and how it decides on fuel, timing, and boost in real time.",
+    "category": "Electronics",
+    "url": "/guides/how-ecus-work/"
+  },
+  {
+    "id": "how-induction-works",
+    "title": "How Induction Works",
+    "tagline": "From air filter to combustion chamber",
+    "description": "Follow the path air takes into an engine and how the induction system shapes power, efficiency, and throttle response.",
+    "category": "Mechanical",
+    "url": "/guides/how-induction-works/"
+  },
+  {
+    "id": "how-turbo-chargers-work",
+    "title": "How Turbo Chargers Work",
+    "tagline": "Free power from exhaust gas",
+    "description": "How a turbocharger spins up, builds boost, and why intercoolers, wastegates, and turbo lag all matter.",
+    "category": "Mechanical",
+    "url": "/guides/how-turbo-chargers-work/"
+  }
+]

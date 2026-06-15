@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OBD Garage Scanner — 3D Diagnostic Bay</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --steel-0:#0c0e12;
+  --steel-1:#13161c;
+  --steel-2:#1b1f27;
+  --steel-3:#272d38;
+  --line:#333a47;
+  --text:#e7ebf2;
+  --text-dim:#9aa4b2;
+  --amber:#f5a524;
+  --amber-soft:#caa15a;
+  --fault:#ef4444;
+  --ok:#22c55e;
+  --crt:#39ff8a;
+  --crt-bg:#04140b;
+}
+
+*{ box-sizing:border-box; }
+
+html,body{ margin:0; height:100%; }
+
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #1c222c 0%, var(--steel-0) 60%);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---- hazard stripe signature ---- */
+.hazard{
+  height:8px;
+  background:repeating-linear-gradient(
+    -45deg,
+    var(--amber) 0 18px,
+    #1a1a1a 18px 36px
+  );
+  opacity:.9;
+}
+
+header{
+  padding:18px 24px 16px;
+  background:linear-gradient(180deg,#14171d, #0e1116);
+  border-bottom:1px solid var(--line);
+}
+.brand{
+  display:flex; align-items:center; gap:14px;
+  max-width:1280px; margin:0 auto;
+}
+.brand .dot{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--ok);
+  box-shadow:0 0 14px var(--ok);
+}
+.brand h1{
+  font-family:'Oswald',sans-serif;
+  font-weight:600; letter-spacing:.14em;
+  font-size:clamp(20px,2.6vw,30px);
+  margin:0; text-transform:uppercase;
+}
+.brand h1 span{ color:var(--amber); }
+.brand p{
+  margin:0 0 0 auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px; color:var(--text-dim);
+  letter-spacing:.04em;
+  text-align:right;
+}
+
+.game{
+  max-width:1280px; margin:0 auto;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:20px; padding:20px 24px 40px;
+}
+
+.panel{
+  background:linear-gradient(180deg,var(--steel-1),var(--steel-0));
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+.panel-head{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px;
+  border-bottom:1px solid var(--line);
+  background:var(--steel-2);
+}
+.panel-head .eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; letter-spacing:.18em;
+  color:var(--amber-soft); text-transform:uppercase;
+}
+.panel-head h2{
+  font-family:'Oswald',sans-serif; font-weight:500;
+  letter-spacing:.06em; font-size:16px; margin:0;
+  text-transform:uppercase;
+}
+
+/* ---- 3D bay ---- */
+.bay-wrap{ position:relative; }
+#bay{
+  width:100%;
+  height:clamp(300px, 42vh, 460px);
+  display:block;
+}
+.bay-hint{
+  position:absolute; left:14px; bottom:12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:.1em;
+  color:var(--text-dim); pointer-events:none;
+  background:rgba(8,10,14,.55);
+  padding:5px 9px; border-radius:6px;
+  border:1px solid var(--line);
+}
+
+/* ---- scanner ---- */
+.scanner{
+  margin:16px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--steel-2);
+  overflow:hidden;
+}
+.scanner-bar{
+  display:flex; align-items:center; gap:8px;
+  padding:8px 12px; border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; color:var(--text-dim); letter-spacing:.1em;
+}
+.scanner-bar .led{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--crt); box-shadow:0 0 8px var(--crt);
+}
+#scannerScreen{
+  background:
+    repeating-linear-gradient(0deg, rgba(57,255,138,.04) 0 2px, transparent 2px 4px),
+    var(--crt-bg);
+  color:var(--crt);
+  min-height:150px; padding:16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px; line-height:1.55;
+  white-space:pre-line;
+  text-shadow:0 0 6px rgba(57,255,138,.45);
+}
+.scanner-buttons{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:8px; padding:12px;
+}
+
+button{
+  border:1px solid var(--line);
+  border-radius:9px; padding:11px 10px;
+  background:var(--steel-3); color:var(--text);
+  font-family:'Oswald',sans-serif; font-weight:500;
+  letter-spacing:.06em; font-size:13px;
+  text-transform:uppercase; cursor:pointer;
+  transition:transform .08s ease, background .15s ease, border-color .15s ease;
+}
+button:hover{ background:#313846; border-color:#475066; }
+button:active{ transform:translateY(1px); }
+button:disabled{ opacity:.4; cursor:not-allowed; }
+button.primary{
+  background:var(--amber); color:#1a1206; border-color:var(--amber);
+}
+button.primary:hover{ background:#ffba3a; }
+
+/* ---- stats ---- */
+.stats{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:12px; padding:16px;
+}
+.stat{
+  background:var(--steel-2); border:1px solid var(--line);
+  border-radius:11px; padding:12px 14px;
+}
+.stat .label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:.14em; color:var(--text-dim);
+  text-transform:uppercase;
+}
+.stat strong{
+  display:block; margin-top:4px;
+  font-family:'Oswald',sans-serif; font-weight:600;
+  font-size:24px; color:var(--text);
+}
+.stat#stat-money strong{ color:var(--ok); }
+.stat#stat-level strong{ color:var(--amber); }
+
+/* ---- codes ---- */
+.codes{ display:grid; gap:12px; padding:0 16px 8px; }
+.codes .empty{
+  font-family:'JetBrains Mono',monospace; font-size:12px;
+  color:var(--text-dim); padding:14px; text-align:center;
+  border:1px dashed var(--line); border-radius:10px;
+}
+.code-card{
+  background:var(--steel-2);
+  border:1px solid var(--line);
+  border-left:4px solid var(--fault);
+  border-radius:11px; padding:13px 15px;
+}
+.code-card.fixed{ border-left-color:var(--ok); opacity:.6; }
+.code-top{ display:flex; align-items:baseline; gap:10px; }
+.code-id{
+  font-family:'JetBrains Mono',monospace; font-weight:700;
+  color:var(--amber); font-size:15px; letter-spacing:.04em;
+}
+.code-sys{
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:.12em; color:var(--text-dim); text-transform:uppercase;
+  border:1px solid var(--line); border-radius:5px; padding:2px 7px;
+}
+.code-status{
+  margin-left:auto; font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+}
+.code-status.active{ color:var(--fault); }
+.code-status.fixed{ color:var(--ok); }
+.code-card p{ margin:8px 0 0; font-size:13px; color:var(--text-dim); }
+.code-card p b{ color:var(--text); font-weight:600; }
+.repair-options{ margin-top:11px; display:grid; gap:7px; }
+.repair-options button{ font-size:12px; padding:9px; }
+
+/* ---- log ---- */
+.log{
+  margin:8px 16px 16px;
+  background:var(--steel-0); border:1px solid var(--line);
+  border-radius:11px; padding:12px;
+  height:150px; overflow-y:auto;
+  font-family:'JetBrains Mono',monospace; font-size:12px;
+  color:var(--text-dim); line-height:1.6;
+}
+.log div{ border-bottom:1px dotted #20252e; padding:2px 0; }
+.log .success{ color:var(--ok); }
+.log .fail{ color:var(--fault); }
+.log .warning{ color:var(--amber); }
+
+.log::-webkit-scrollbar{ width:6px; }
+.log::-webkit-scrollbar-thumb{ background:#2c333f; border-radius:3px; }
+
+@media (max-width:920px){
+  .game{ grid-template-columns:1fr; }
+  .scanner-buttons{ grid-template-columns:repeat(2,1fr); }
+}
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="hazard"></div>
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>OBD <span>Garage</span> Scanner</h1>
+    <p>BAY 01 · IGNITION ON<br>OBD-II LINK ESTABLISHED</p>
+  </div>
+</header>
+
+<div class="game">
+
+  <!-- LEFT: 3D bay + scanner -->
+  <div class="panel">
+    <div class="panel-head">
+      <span class="eyebrow">Diagnostic Bay</span>
+      <h2>Customer Vehicle</h2>
+    </div>
+
+    <div class="bay-wrap">
+      <canvas id="bay"></canvas>
+      <div class="bay-hint">DRAG TO ORBIT · SCROLL TO ZOOM</div>
+    </div>
+
+    <div class="scanner">
+      <div class="scanner-bar">
+        <span class="led"></span> OBD-II SCAN TOOL · v2.4
+      </div>
+      <div id="scannerScreen">CONNECT OBD-II SCANNER...
+IGNITION: ON
+STATUS: READY</div>
+      <div class="scanner-buttons">
+        <button class="primary" onclick="scanVehicle()">Scan Vehicle</button>
+        <button onclick="clearCodes()">Clear Codes</button>
+        <button onclick="nextVehicle()">Next Vehicle</button>
+        <button onclick="resetGame()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: stats + codes + log -->
+  <div class="panel">
+    <div class="panel-head">
+      <span class="eyebrow">Service Bench</span>
+      <h2>Diagnostic Trouble Codes</h2>
+    </div>
+
+    <div class="stats">
+      <div class="stat" id="stat-money"><span class="label">Money</span><strong id="money">$500</strong></div>
+      <div class="stat" id="stat-xp"><span class="label">XP</span><strong id="xp">0</strong></div>
+      <div class="stat" id="stat-level"><span class="label">Level</span><strong id="level">1</strong></div>
+    </div>
+
+    <div id="codes" class="codes"></div>
+    <div id="log" class="log"></div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ============================================================
+   GAME DATA + LOGIC  (mechanics unchanged from original)
+   ============================================================ */
+const faultPool = [
+  { code:"P0301", system:"Engine", issue:"Cylinder 1 Misfire Detected",
+    cause:"Bad spark plug or ignition coil", correctRepair:"Replace spark plug",
+    wrongRepairs:["Replace ABS sensor","Flush transmission","Replace battery"],
+    cost:40, reward:140, light:"engine" },
+  { code:"P0420", system:"Emissions", issue:"Catalyst System Efficiency Below Threshold",
+    cause:"Weak catalytic converter or oxygen sensor fault", correctRepair:"Replace oxygen sensor",
+    wrongRepairs:["Replace brake pads","Replace fuel cap","Replace alternator"],
+    cost:90, reward:230, light:"engine" },
+  { code:"C0035", system:"ABS", issue:"Front Left Wheel Speed Sensor Fault",
+    cause:"Dirty, damaged, or disconnected ABS sensor", correctRepair:"Replace ABS sensor",
+    wrongRepairs:["Replace spark plug","Clean throttle body","Replace radiator"],
+    cost:65, reward:180, light:"abs" },
+  { code:"P0562", system:"Electrical", issue:"System Voltage Low",
+    cause:"Weak battery or alternator charging issue", correctRepair:"Replace battery",
+    wrongRepairs:["Replace MAF sensor","Replace ABS module","Change engine oil"],
+    cost:110, reward:250, light:"battery" },
+  { code:"P0171", system:"Fuel/Air", issue:"System Too Lean Bank 1",
+    cause:"Vacuum leak, dirty MAF, or weak fuel delivery", correctRepair:"Clean MAF sensor",
+    wrongRepairs:["Replace brake fluid","Replace tire","Replace horn"],
+    cost:35, reward:150, light:"engine" },
+  { code:"P0128", system:"Cooling", issue:"Coolant Thermostat Below Regulating Temperature",
+    cause:"Thermostat stuck open", correctRepair:"Replace thermostat",
+    wrongRepairs:["Replace oxygen sensor","Replace wheel bearing","Replace ABS fuse"],
+    cost:55, reward:170, light:"engine" },
+  { code:"U0121", system:"Network", issue:"Lost Communication With ABS Control Module",
+    cause:"ABS module power, ground, wiring, or module fault", correctRepair:"Repair ABS module wiring",
+    wrongRepairs:["Replace spark plug","Replace air filter","Recharge AC gas"],
+    cost:120, reward:280, light:"abs" }
+];
+
+let money = 500;
+let xp = 0;
+let level = 1;
+let currentFaults = [];
+let scanned = false;
+
+function log(message, type=""){
+  const box = document.getElementById("log");
+  const line = document.createElement("div");
+  line.className = type;
+  line.textContent = "> " + message;
+  box.prepend(line);
+}
+
+function updateStats(){
+  level = Math.floor(xp / 300) + 1;
+  document.getElementById("money").textContent = "$" + money;
+  document.getElementById("xp").textContent = xp;
+  document.getElementById("level").textContent = level;
+}
+
+function generateVehicle(){
+  scanned = false;
+  const count = Math.floor(Math.random()*3)+2;
+  const shuffled = [...faultPool].sort(()=>Math.random()-0.5);
+  currentFaults = shuffled.slice(0,count).map(f=>({ ...f, fixed:false }));
+
+  document.getElementById("scannerScreen").textContent =
+`CONNECT OBD-II SCANNER...
+IGNITION: ON
+STATUS: READY
+
+CUSTOMER COMPLAINT:
+Dashboard warning lights are on.`;
+
+  setCarColor();
+  renderCodes();
+  updateLights();
+  log("New customer vehicle entered the bay.", "warning");
+}
+
+function scanVehicle(){
+  scanned = true;
+  let text = "SCANNING ECU MODULES...\n\n";
+  text += "ENGINE ECU: FOUND\n";
+  text += "ABS MODULE: FOUND\n";
+  text += "BODY CONTROL: FOUND\n\n";
+  text += "DTC RESULTS:\n";
+  currentFaults.forEach(f=>{ if(!f.fixed) text += `${f.code} - ${f.issue}\n`; });
+  if(currentFaults.every(f=>f.fixed)) text += "NO ACTIVE CODES";
+  document.getElementById("scannerScreen").textContent = text;
+  renderCodes();
+  log("Vehicle scan completed.");
+}
+
+function renderCodes(){
+  const container = document.getElementById("codes");
+  container.innerHTML = "";
+  if(!scanned){
+    container.innerHTML = `<div class="empty">Run a scan to reveal active DTC codes.</div>`;
+    return;
+  }
+  currentFaults.forEach((fault,index)=>{
+    const card = document.createElement("div");
+    card.className = "code-card" + (fault.fixed ? " fixed" : "");
+    const repairs = [fault.correctRepair, ...fault.wrongRepairs].sort(()=>Math.random()-0.5);
+    card.innerHTML = `
+      <div class="code-top">
+        <span class="code-id">${fault.code}</span>
+        <span class="code-sys">${fault.system}</span>
+        <span class="code-status ${fault.fixed?"fixed":"active"}">${fault.fixed?"Fixed":"Active"}</span>
+      </div>
+      <p><b>Issue:</b> ${fault.issue}</p>
+      <p><b>Likely cause:</b> ${fault.cause}</p>
+      <div class="repair-options">
+        ${ fault.fixed ? "" :
+           repairs.map(r=>`<button onclick="attemptRepair(${index}, '${r.replace(/'/g,"\\'")}')">${r}</button>`).join("") }
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function attemptRepair(index, repair){
+  const fault = currentFaults[index];
+  if(fault.fixed) return;
+  if(money < fault.cost){ log("Not enough money for this repair.", "fail"); return; }
+  money -= fault.cost;
+  if(repair === fault.correctRepair){
+    fault.fixed = true;
+    money += fault.reward;
+    xp += 100;
+    log(`${fault.code} fixed using: ${repair}. Earned $${fault.reward}.`, "success");
+  } else {
+    xp += 15;
+    log(`Wrong repair for ${fault.code}: ${repair}. Lost $${fault.cost}.`, "fail");
+  }
+  updateStats();
+  renderCodes();
+  updateLights();
+}
+
+function clearCodes(){
+  if(!scanned){ log("Scan the car before clearing codes.", "warning"); return; }
+  const active = currentFaults.filter(f=>!f.fixed);
+  if(active.length>0){
+    log("Cannot clear codes. Active faults still exist.", "fail");
+    document.getElementById("scannerScreen").textContent =
+`CLEAR FAILED
+
+ACTIVE FAULTS REMAIN:
+${active.map(f=>f.code+" - "+f.issue).join("\n")}`;
+    return;
+  }
+  money += 100;
+  xp += 75;
+  updateStats();
+  document.getElementById("scannerScreen").textContent =
+`CLEAR SUCCESSFUL
+
+NO ACTIVE DTC CODES
+MIL STATUS: OFF
+VEHICLE READY`;
+  log("All codes cleared. Customer vehicle repaired.", "success");
+}
+
+function updateLights(){
+  const engine  = currentFaults.some(f=>!f.fixed && f.light==="engine");
+  const abs     = currentFaults.some(f=>!f.fixed && f.light==="abs");
+  const battery = currentFaults.some(f=>!f.fixed && f.light==="battery");
+  setMarker("engine",  engine);
+  setMarker("abs",     abs);
+  setMarker("battery", battery);
+}
+
+function nextVehicle(){ generateVehicle(); }
+
+function resetGame(){
+  money = 500; xp = 0; level = 1;
+  updateStats();
+  document.getElementById("log").innerHTML = "";
+  generateVehicle();
+}
+
+/* ============================================================
+   3D DIAGNOSTIC BAY  (Three.js r128)
+   ============================================================ */
+let scene, camera, renderer, carGroup, carPaint;
+const markers = {};      // engine / abs / battery -> {group,light,active}
+const bayCanvas = document.getElementById("bay");
+
+// orbit state (custom controls — no external dependency)
+let theta = -0.7, phi = 1.18, radius = 8.2;
+let autoRotate = true;
+let dragging = false, lastX = 0, lastY = 0;
+const target = new THREE.Vector3(0, 0.7, 0);
+let clock;
+
+const carColors = [0xef4444, 0x2563eb, 0x0f766e, 0xf59e0b, 0x7c3aed, 0xd1d5db, 0x334155];
+
+function initBay(){
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x0c0e12, 12, 26);
+
+  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  renderer = new THREE.WebGLRenderer({ canvas:bayCanvas, antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  buildLighting();
+  buildBay();
+  buildCar();
+  buildMarkers();
+
+  clock = new THREE.Clock();
+  resizeBay();
+  window.addEventListener("resize", resizeBay);
+  attachControls();
+  animate();
+}
+
+function buildLighting(){
+  scene.add(new THREE.HemisphereLight(0x6b7689, 0x0a0c10, 0.55));
+  scene.add(new THREE.AmbientLight(0x222831, 0.5));
+
+  const key = new THREE.SpotLight(0xffffff, 1.5, 40, Math.PI/5, 0.4, 1);
+  key.position.set(6, 12, 6);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024,1024);
+  scene.add(key);
+
+  const rimBlue = new THREE.DirectionalLight(0x3b82f6, 0.7);
+  rimBlue.position.set(-8, 4, -6);
+  scene.add(rimBlue);
+
+  const rimWarm = new THREE.DirectionalLight(0xf5a524, 0.45);
+  rimWarm.position.set(5, 3, -7);
+  scene.add(rimWarm);
+}
+
+function buildBay(){
+  // diagnostic pad
+  const padGeo = new THREE.CircleGeometry(6.5, 64);
+  const padMat = new THREE.MeshStandardMaterial({ color:0x141821, roughness:0.85, metalness:0.2 });
+  const pad = new THREE.Mesh(padGeo, padMat);
+  pad.rotation.x = -Math.PI/2;
+  pad.receiveShadow = true;
+  scene.add(pad);
+
+  // glowing ring around the pad
+  const ringGeo = new THREE.RingGeometry(6.1, 6.45, 64);
+  const ringMat = new THREE.MeshBasicMaterial({ color:0xf5a524, side:THREE.DoubleSide, transparent:true, opacity:0.55 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI/2; ring.position.y = 0.01;
+  scene.add(ring);
+
+  // floor grid
+  const grid = new THREE.GridHelper(40, 40, 0x2a313d, 0x1a1f27);
+  grid.position.y = -0.001;
+  scene.add(grid);
+}
+
+function part(geo, color, opts={}){
+  const m = new THREE.MeshStandardMaterial({
+    color, metalness:opts.metalness ?? 0.35, roughness:opts.roughness ?? 0.5,
+    emissive:opts.emissive ?? 0x000000, emissiveIntensity:opts.emissiveIntensity ?? 1
+  });
+  const mesh = new THREE.Mesh(geo, m);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  return mesh;
+}
+
+function buildCar(){
+  carGroup = new THREE.Group();
+
+  // lower body
+  const lower = part(new THREE.BoxGeometry(4.4, 0.7, 1.95), 0xef4444, {metalness:0.55, roughness:0.35});
+  lower.position.y = 0.62; carPaint = lower.material; carGroup.add(lower);
+
+  // upper body (hood/trunk level)
+  const upper = part(new THREE.BoxGeometry(4.1, 0.55, 1.85), 0xef4444, {metalness:0.55, roughness:0.35});
+  upper.position.y = 1.05; carGroup.add(upper);
+  upper.material = carPaint; // share paint so color updates together
+
+  // cabin
+  const cabin = part(new THREE.BoxGeometry(2.1, 0.78, 1.62), 0xc62f2f, {metalness:0.5, roughness:0.4});
+  cabin.position.set(-0.15, 1.62, 0); carGroup.add(cabin);
+
+  // glass
+  const glassMat = new THREE.MeshStandardMaterial({ color:0x111722, metalness:0.4, roughness:0.1,
+    emissive:0x101820, emissiveIntensity:0.6, transparent:true, opacity:0.92 });
+  const mkGlass = (w,h,d,x,y,z)=>{ const g=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),glassMat); g.position.set(x,y,z); carGroup.add(g); };
+  mkGlass(0.06,0.6,1.45, 0.92,1.6,0);   // windshield front
+  mkGlass(0.06,0.6,1.45,-1.22,1.6,0);   // rear glass
+  mkGlass(1.9,0.55,0.06,-0.15,1.6,0.82);// side L
+  mkGlass(1.9,0.55,0.06,-0.15,1.6,-0.82);// side R
+
+  // wheels
+  const tireMat = new THREE.MeshStandardMaterial({ color:0x0b0d11, roughness:0.9, metalness:0.1 });
+  const hubMat  = new THREE.MeshStandardMaterial({ color:0x9aa4b2, roughness:0.3, metalness:0.85 });
+  function wheel(x,z){
+    const w = new THREE.Group();
+    const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.56,0.56,0.42,28), tireMat);
+    tire.rotation.x = Math.PI/2; tire.castShadow = true;
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.26,0.44,16), hubMat);
+    hub.rotation.x = Math.PI/2;
+    w.add(tire, hub);
+    w.position.set(x, 0.5, z);
+    carGroup.add(w);
+  }
+  wheel( 1.45, 0.98); wheel( 1.45,-0.98);
+  wheel(-1.45, 0.98); wheel(-1.45,-0.98);
+
+  // headlights
+  const headMat = new THREE.MeshStandardMaterial({ color:0xfff7d6, emissive:0xfff1b0, emissiveIntensity:1.4 });
+  [0.7,-0.7].forEach(z=>{
+    const h = new THREE.Mesh(new THREE.BoxGeometry(0.08,0.22,0.4), headMat);
+    h.position.set(2.21,0.78,z); carGroup.add(h);
+  });
+  // taillights
+  const tailMat = new THREE.MeshStandardMaterial({ color:0xff5252, emissive:0xb91c1c, emissiveIntensity:1.2 });
+  [0.7,-0.7].forEach(z=>{
+    const t = new THREE.Mesh(new THREE.BoxGeometry(0.08,0.22,0.4), tailMat);
+    t.position.set(-2.06,0.85,z); carGroup.add(t);
+  });
+  // grille / bumpers
+  const chrome = new THREE.MeshStandardMaterial({ color:0x2b3340, metalness:0.9, roughness:0.25 });
+  const fb = new THREE.Mesh(new THREE.BoxGeometry(0.18,0.28,1.7), chrome); fb.position.set(2.24,0.55,0); carGroup.add(fb);
+  const rb = new THREE.Mesh(new THREE.BoxGeometry(0.18,0.28,1.7), chrome); rb.position.set(-2.18,0.55,0); carGroup.add(rb);
+
+  carGroup.castShadow = true;
+  scene.add(carGroup);
+}
+
+function setCarColor(){
+  if(!carPaint) return;
+  const c = carColors[Math.floor(Math.random()*carColors.length)];
+  carPaint.color.setHex(c);
+}
+
+/* warning markers floating over the relevant system */
+function makeBadge(label, color){
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = 256;
+  const ctx = cv.getContext("2d");
+  // glow
+  ctx.shadowColor = color; ctx.shadowBlur = 35;
+  // hazard rounded badge
+  ctx.fillStyle = color;
+  roundRect(ctx, 34, 70, 188, 116, 22); ctx.fill();
+  // inner dark
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "rgba(12,14,18,0.92)";
+  roundRect(ctx, 44, 80, 168, 96, 16); ctx.fill();
+  // warning triangle
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(128,92); ctx.lineTo(150,128); ctx.lineTo(106,128); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#0c0e12";
+  ctx.font = "bold 26px monospace"; ctx.textAlign="center";
+  ctx.fillText("!", 128, 124);
+  // label
+  ctx.fillStyle = color;
+  ctx.font = "bold 30px monospace";
+  ctx.fillText(label, 128, 164);
+
+  const tex = new THREE.CanvasTexture(cv);
+  const mat = new THREE.SpriteMaterial({ map:tex, transparent:true });
+  const sp = new THREE.Sprite(mat);
+  sp.scale.set(1.1,1.1,1.1);
+  return sp;
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function buildMarkers(){
+  const defs = {
+    engine:  { label:"ENGINE",  color:"#f5a524", pos:[1.3, 2.7, 0],     lightColor:0xf5a524 },
+    abs:     { label:"ABS",     color:"#fb923c", pos:[1.45, 2.4, 1.1],  lightColor:0xfb923c },
+    battery: { label:"BATT",    color:"#ef4444", pos:[2.0, 2.4, -0.9],  lightColor:0xef4444 }
+  };
+  Object.entries(defs).forEach(([key,d])=>{
+    const g = new THREE.Group();
+    const badge = makeBadge(d.label, d.color);
+    g.add(badge);
+    const pl = new THREE.PointLight(d.lightColor, 0, 6);
+    g.add(pl);
+    g.position.set(...d.pos);
+    g.visible = false;
+    g.userData = { base:d.pos[1], light:pl };
+    scene.add(g);
+    markers[key] = g;
+  });
+}
+
+function setMarker(key, active){
+  const m = markers[key];
+  if(!m) return;
+  m.visible = active;
+  m.userData.active = active;
+}
+
+function attachControls(){
+  const onDown = (x,y)=>{ dragging=true; autoRotate=false; lastX=x; lastY=y; };
+  const onMove = (x,y)=>{
+    if(!dragging) return;
+    theta -= (x-lastX)*0.008;
+    phi   -= (y-lastY)*0.008;
+    phi = Math.max(0.35, Math.min(1.45, phi));
+    lastX=x; lastY=y;
+  };
+  const onUp = ()=>{ dragging=false; };
+
+  bayCanvas.addEventListener("mousedown", e=>onDown(e.clientX,e.clientY));
+  window.addEventListener("mousemove", e=>onMove(e.clientX,e.clientY));
+  window.addEventListener("mouseup", onUp);
+
+  bayCanvas.addEventListener("touchstart", e=>{ const t=e.touches[0]; onDown(t.clientX,t.clientY); }, {passive:true});
+  bayCanvas.addEventListener("touchmove", e=>{ const t=e.touches[0]; onMove(t.clientX,t.clientY); }, {passive:true});
+  bayCanvas.addEventListener("touchend", onUp);
+
+  bayCanvas.addEventListener("wheel", e=>{
+    e.preventDefault();
+    radius += e.deltaY*0.006;
+    radius = Math.max(5, Math.min(13, radius));
+  }, {passive:false});
+}
+
+function resizeBay(){
+  const w = bayCanvas.clientWidth || bayCanvas.parentElement.clientWidth;
+  const h = bayCanvas.clientHeight || 380;
+  renderer.setSize(w, h, false);
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+}
+
+function animate(){
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  if(autoRotate) theta += 0.0028;
+
+  // camera orbit from spherical coords
+  camera.position.x = target.x + radius * Math.sin(phi) * Math.sin(theta);
+  camera.position.y = target.y + radius * Math.cos(phi);
+  camera.position.z = target.z + radius * Math.sin(phi) * Math.cos(theta);
+  camera.lookAt(target);
+
+  // marker bob + pulse
+  Object.values(markers).forEach((m,i)=>{
+    if(!m.visible) return;
+    m.position.y = m.userData.base + Math.sin(t*2 + i)*0.08;
+    const pulse = 0.6 + Math.abs(Math.sin(t*3 + i))*0.9;
+    m.userData.light.intensity = pulse*1.4;
+    m.scale.setScalar(1 + Math.sin(t*3 + i)*0.05);
+  });
+
+  renderer.render(scene, camera);
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+initBay();
+generateVehicle();
+updateStats();
+</script>
+
+</body>
+</html>

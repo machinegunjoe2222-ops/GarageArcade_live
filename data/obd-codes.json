@@ -1,0 +1,4234 @@
+[
+  {
+    "code": "P0300",
+    "description": "Random/Multiple Cylinder Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0301",
+    "description": "Cylinder 1 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0302",
+    "description": "Cylinder 2 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0303",
+    "description": "Cylinder 3 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0304",
+    "description": "Cylinder 4 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0305",
+    "description": "Cylinder 5 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0306",
+    "description": "Cylinder 6 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0307",
+    "description": "Cylinder 7 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0308",
+    "description": "Cylinder 8 Misfire Detected",
+    "category": "Ignition / Misfire",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$1200",
+    "canDrive": "Avoid driving if the Check Engine Light is flashing or the engine is shaking. A severe misfire can damage the catalytic converter.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine shaking",
+      "Poor acceleration",
+      "Increased fuel consumption",
+      "Check Engine Light flashing or steady"
+    ],
+    "causes": [
+      "Worn spark plugs",
+      "Faulty ignition coil",
+      "Vacuum leak",
+      "Dirty or faulty fuel injector",
+      "Low fuel pressure",
+      "Engine compression issue"
+    ],
+    "fixes": [
+      "Scan for cylinder-specific misfire codes",
+      "Inspect spark plugs and ignition coils",
+      "Check for vacuum leaks",
+      "Test injector operation",
+      "Check fuel pressure",
+      "Perform compression test if misfire remains"
+    ]
+  },
+  {
+    "code": "P0171",
+    "description": "System Too Lean (Bank 1)",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0172",
+    "description": "System Too Rich (Bank 1)",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0174",
+    "description": "System Too Lean (Bank 2)",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0175",
+    "description": "System Too Rich (Bank 2)",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0420",
+    "description": "Catalyst System Efficiency Below Threshold (Bank 1)",
+    "category": "Emissions",
+    "severity": "Medium",
+    "estimatedRepairCost": "$100-$1800",
+    "canDrive": "Usually drivable, but emissions may be high. Diagnose before replacing expensive parts.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Reduced fuel economy",
+      "Failed emissions test",
+      "Sulfur smell from exhaust"
+    ],
+    "causes": [
+      "Failing catalytic converter",
+      "Faulty oxygen sensor",
+      "Exhaust leak",
+      "Engine running rich",
+      "Previous misfire damage"
+    ],
+    "fixes": [
+      "Inspect exhaust for leaks",
+      "Check upstream and downstream oxygen sensor readings",
+      "Verify fuel trims",
+      "Repair misfires first",
+      "Replace catalytic converter only after confirming failure"
+    ]
+  },
+  {
+    "code": "P0430",
+    "description": "Catalyst System Efficiency Below Threshold (Bank 2)",
+    "category": "Emissions",
+    "severity": "Medium",
+    "estimatedRepairCost": "$100-$1800",
+    "canDrive": "Usually drivable, but emissions may be high. Diagnose before replacing expensive parts.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Reduced fuel economy",
+      "Failed emissions test",
+      "Sulfur smell from exhaust"
+    ],
+    "causes": [
+      "Failing catalytic converter",
+      "Faulty oxygen sensor",
+      "Exhaust leak",
+      "Engine running rich",
+      "Previous misfire damage"
+    ],
+    "fixes": [
+      "Inspect exhaust for leaks",
+      "Check upstream and downstream oxygen sensor readings",
+      "Verify fuel trims",
+      "Repair misfires first",
+      "Replace catalytic converter only after confirming failure"
+    ]
+  },
+  {
+    "code": "P0440",
+    "description": "Evaporative Emission Control System Malfunction",
+    "category": "EVAP System",
+    "severity": "Low",
+    "estimatedRepairCost": "$20-$700",
+    "canDrive": "Usually safe to drive, but fuel vapors may leak and the vehicle may fail emissions testing.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Fuel smell near vehicle",
+      "Failed emissions test"
+    ],
+    "causes": [
+      "Loose or damaged fuel cap",
+      "Cracked EVAP hose",
+      "Faulty purge valve",
+      "Faulty vent valve",
+      "Leaking charcoal canister"
+    ],
+    "fixes": [
+      "Tighten or replace fuel cap",
+      "Inspect EVAP hoses",
+      "Smoke test EVAP system",
+      "Test purge and vent valves",
+      "Inspect charcoal canister"
+    ]
+  },
+  {
+    "code": "P0441",
+    "description": "Evaporative Emission Control System Incorrect Purge Flow",
+    "category": "EVAP System",
+    "severity": "Low",
+    "estimatedRepairCost": "$20-$700",
+    "canDrive": "Usually safe to drive, but fuel vapors may leak and the vehicle may fail emissions testing.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Fuel smell near vehicle",
+      "Failed emissions test"
+    ],
+    "causes": [
+      "Loose or damaged fuel cap",
+      "Cracked EVAP hose",
+      "Faulty purge valve",
+      "Faulty vent valve",
+      "Leaking charcoal canister"
+    ],
+    "fixes": [
+      "Tighten or replace fuel cap",
+      "Inspect EVAP hoses",
+      "Smoke test EVAP system",
+      "Test purge and vent valves",
+      "Inspect charcoal canister"
+    ]
+  },
+  {
+    "code": "P0442",
+    "description": "Evaporative Emission Control System Leak Detected Small Leak",
+    "category": "EVAP System",
+    "severity": "Low",
+    "estimatedRepairCost": "$20-$700",
+    "canDrive": "Usually safe to drive, but fuel vapors may leak and the vehicle may fail emissions testing.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Fuel smell near vehicle",
+      "Failed emissions test"
+    ],
+    "causes": [
+      "Loose or damaged fuel cap",
+      "Cracked EVAP hose",
+      "Faulty purge valve",
+      "Faulty vent valve",
+      "Leaking charcoal canister"
+    ],
+    "fixes": [
+      "Tighten or replace fuel cap",
+      "Inspect EVAP hoses",
+      "Smoke test EVAP system",
+      "Test purge and vent valves",
+      "Inspect charcoal canister"
+    ]
+  },
+  {
+    "code": "P0455",
+    "description": "Evaporative Emission Control System Leak Detected Gross Leak",
+    "category": "EVAP System",
+    "severity": "Low",
+    "estimatedRepairCost": "$20-$700",
+    "canDrive": "Usually safe to drive, but fuel vapors may leak and the vehicle may fail emissions testing.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Fuel smell near vehicle",
+      "Failed emissions test"
+    ],
+    "causes": [
+      "Loose or damaged fuel cap",
+      "Cracked EVAP hose",
+      "Faulty purge valve",
+      "Faulty vent valve",
+      "Leaking charcoal canister"
+    ],
+    "fixes": [
+      "Tighten or replace fuel cap",
+      "Inspect EVAP hoses",
+      "Smoke test EVAP system",
+      "Test purge and vent valves",
+      "Inspect charcoal canister"
+    ]
+  },
+  {
+    "code": "P0456",
+    "description": "Evaporative Emission Control System Leak Detected Very Small Leak",
+    "category": "EVAP System",
+    "severity": "Low",
+    "estimatedRepairCost": "$20-$700",
+    "canDrive": "Usually safe to drive, but fuel vapors may leak and the vehicle may fail emissions testing.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Fuel smell near vehicle",
+      "Failed emissions test"
+    ],
+    "causes": [
+      "Loose or damaged fuel cap",
+      "Cracked EVAP hose",
+      "Faulty purge valve",
+      "Faulty vent valve",
+      "Leaking charcoal canister"
+    ],
+    "fixes": [
+      "Tighten or replace fuel cap",
+      "Inspect EVAP hoses",
+      "Smoke test EVAP system",
+      "Test purge and vent valves",
+      "Inspect charcoal canister"
+    ]
+  },
+  {
+    "code": "P0100",
+    "description": "Mass or Volume Air Flow Circuit Malfunction",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0101",
+    "description": "Mass or Volume Air Flow Circuit Range/Performance Problem",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0102",
+    "description": "Mass or Volume Air Flow Circuit Low Input",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0103",
+    "description": "Mass or Volume Air Flow Circuit High Input",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0104",
+    "description": "Mass or Volume Air Flow Circuit Intermittent",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0105",
+    "description": "Manifold Absolute Pressure/Barometric Pressure Circuit Malfunction",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0106",
+    "description": "Manifold Absolute Pressure/Barometric Pressure Circuit Range/Performance Problem",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0107",
+    "description": "Manifold Absolute Pressure/Barometric Pressure Circuit Low Input",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0108",
+    "description": "Manifold Absolute Pressure/Barometric Pressure Circuit High Input",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0109",
+    "description": "Manifold Absolute Pressure/Barometric Pressure Circuit Intermittent",
+    "category": "Air Intake",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0110",
+    "description": "Intake Air Temperature Circuit Malfunction",
+    "category": "Air Intake",
+    "severity": "Low",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0111",
+    "description": "Intake Air Temperature Circuit Range/Performance Problem",
+    "category": "Air Intake",
+    "severity": "Low",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0112",
+    "description": "Intake Air Temperature Circuit Low Input",
+    "category": "Air Intake",
+    "severity": "Low",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0113",
+    "description": "Intake Air Temperature Circuit High Input",
+    "category": "Air Intake",
+    "severity": "Low",
+    "estimatedRepairCost": "$40-$600",
+    "canDrive": "Usually drivable, but poor air measurement can affect fuel mixture and drivability.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Hesitation",
+      "Poor acceleration",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Dirty MAF sensor",
+      "Faulty MAP sensor",
+      "Intake air leak",
+      "Restricted air filter",
+      "Damaged wiring"
+    ],
+    "fixes": [
+      "Inspect intake ducting",
+      "Clean MAF sensor with proper cleaner",
+      "Check MAP/MAF sensor readings",
+      "Replace air filter",
+      "Repair wiring or connector faults"
+    ]
+  },
+  {
+    "code": "P0118",
+    "description": "Engine Coolant Temperature Circuit High Input",
+    "category": "Cooling",
+    "severity": "Medium",
+    "estimatedRepairCost": "$40-$500",
+    "canDrive": "Drive carefully. Stop if temperature rises or overheating occurs.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Engine running cold or hot",
+      "Poor heater performance",
+      "Reduced fuel economy"
+    ],
+    "causes": [
+      "Stuck thermostat",
+      "Faulty coolant temperature sensor",
+      "Low coolant",
+      "Damaged wiring",
+      "Cooling system fault"
+    ],
+    "fixes": [
+      "Check coolant level",
+      "Inspect thermostat operation",
+      "Test coolant temperature sensor",
+      "Inspect cooling fan operation",
+      "Repair leaks"
+    ]
+  },
+  {
+    "code": "P0128",
+    "description": "Coolant Thermostat Malfunction",
+    "category": "Cooling",
+    "severity": "Low",
+    "estimatedRepairCost": "$40-$500",
+    "canDrive": "Drive carefully. Stop if temperature rises or overheating occurs.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Engine running cold or hot",
+      "Poor heater performance",
+      "Reduced fuel economy"
+    ],
+    "causes": [
+      "Stuck thermostat",
+      "Faulty coolant temperature sensor",
+      "Low coolant",
+      "Damaged wiring",
+      "Cooling system fault"
+    ],
+    "fixes": [
+      "Check coolant level",
+      "Inspect thermostat operation",
+      "Test coolant temperature sensor",
+      "Inspect cooling fan operation",
+      "Repair leaks"
+    ]
+  },
+  {
+    "code": "P0130",
+    "description": "O2 Sensor Circuit Malfunction (Bank 1 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0131",
+    "description": "O2 Sensor Circuit Low Voltage (Bank 1 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0132",
+    "description": "O2 Sensor Circuit High Voltage (Bank 1 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0133",
+    "description": "O2 Sensor Circuit Slow Response (Bank 1 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0134",
+    "description": "O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0135",
+    "description": "O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0136",
+    "description": "O2 Sensor Circuit Malfunction (Bank 1 Sensor 2)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0137",
+    "description": "O2 Sensor Circuit Low Voltage (Bank 1 Sensor 2)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0138",
+    "description": "O2 Sensor Circuit High Voltage (Bank 1 Sensor 2)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0139",
+    "description": "O2 Sensor Circuit Slow Response (Bank 1 Sensor 2)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0140",
+    "description": "O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 2)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0141",
+    "description": "O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 2)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0150",
+    "description": "O2 Sensor Circuit Malfunction (Bank 2 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0151",
+    "description": "O2 Sensor Circuit Low Voltage (Bank 2 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0152",
+    "description": "O2 Sensor Circuit High Voltage (Bank 2 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0153",
+    "description": "O2 Sensor Circuit Slow Response (Bank 2 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0154",
+    "description": "O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0155",
+    "description": "O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 1)",
+    "category": "Oxygen Sensor",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$500",
+    "canDrive": "Usually drivable, but fuel economy and emissions may worsen.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "Poor fuel economy",
+      "Failed emissions test",
+      "Rough idle"
+    ],
+    "causes": [
+      "Aging oxygen sensor",
+      "Exhaust leak",
+      "Damaged sensor wiring",
+      "Contaminated sensor",
+      "Engine running rich or lean"
+    ],
+    "fixes": [
+      "Inspect exhaust leaks",
+      "Check O2 sensor voltage or waveform",
+      "Inspect wiring and heater circuit",
+      "Verify fuel trims",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0010",
+    "description": "A Camshaft Position Actuator Circuit (Bank 1)",
+    "category": "Engine Sensors",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0011",
+    "description": "A Camshaft Position Timing Over-Advanced or System Performance (Bank 1)",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0012",
+    "description": "A Camshaft Position Timing Over-Retarded (Bank 1)",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0013",
+    "description": "B Camshaft Position Actuator Circuit (Bank 1)",
+    "category": "Engine Sensors",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0014",
+    "description": "B Camshaft Position Timing Over-Advanced or System Performance (Bank 1)",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0016",
+    "description": "Crankshaft Position Camshaft Position Correlation (Bank 1 Sensor A)",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0335",
+    "description": "Crankshaft Position Sensor A Circuit Malfunction",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0336",
+    "description": "Crankshaft Position Sensor A Circuit Range/Performance",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0337",
+    "description": "Crankshaft Position Sensor A Circuit Low Input",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0340",
+    "description": "Camshaft Position Sensor Circuit Malfunction",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0341",
+    "description": "Camshaft Position Sensor Circuit Range/Performance",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0342",
+    "description": "Camshaft Position Sensor Circuit Low Input",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0343",
+    "description": "Camshaft Position Sensor Circuit High Input",
+    "category": "Engine Sensors",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$550",
+    "canDrive": "Not recommended if the vehicle stalls, starts poorly, or may shut off while driving.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Hard starting",
+      "No start condition",
+      "Engine stalling",
+      "Poor acceleration",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Faulty sensor",
+      "Damaged wiring",
+      "Connector corrosion",
+      "Timing issue",
+      "ECU signal fault"
+    ],
+    "fixes": [
+      "Test sensor signal",
+      "Inspect wiring harness",
+      "Clean connectors",
+      "Check timing components if relevant",
+      "Replace faulty sensor"
+    ]
+  },
+  {
+    "code": "P0400",
+    "description": "Exhaust Gas Recirculation Flow Malfunction",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0401",
+    "description": "Exhaust Gas Recirculation Flow Insufficient Detected",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0402",
+    "description": "Exhaust Gas Recirculation Flow Excessive Detected",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0403",
+    "description": "Exhaust Gas Recirculation Circuit Malfunction",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0404",
+    "description": "Exhaust Gas Recirculation Circuit Range/Performance",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0405",
+    "description": "Exhaust Gas Recirculation Sensor A Circuit Low",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0406",
+    "description": "Exhaust Gas Recirculation Sensor A Circuit High",
+    "category": "EGR System",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$700",
+    "canDrive": "Usually drivable, but emissions and drivability may suffer.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Engine knocking",
+      "Poor acceleration",
+      "Failed emissions test",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Clogged EGR passages",
+      "Faulty EGR valve",
+      "Vacuum control fault",
+      "EGR sensor issue",
+      "Carbon buildup"
+    ],
+    "fixes": [
+      "Inspect and clean EGR valve",
+      "Check EGR passages",
+      "Test vacuum control",
+      "Inspect EGR sensor readings",
+      "Clear carbon buildup"
+    ]
+  },
+  {
+    "code": "P0500",
+    "description": "Vehicle Speed Sensor Malfunction",
+    "category": "Vehicle Speed",
+    "severity": "Medium",
+    "estimatedRepairCost": "$70-$600",
+    "canDrive": "Drive carefully. Speedometer, ABS, and transmission behavior may be affected.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Speedometer not working",
+      "ABS warning light",
+      "Transmission shifting issues",
+      "Cruise control not working"
+    ],
+    "causes": [
+      "Faulty vehicle speed sensor",
+      "Wheel speed sensor issue",
+      "Damaged wiring",
+      "ABS module communication issue"
+    ],
+    "fixes": [
+      "Test vehicle speed sensor",
+      "Inspect wheel speed sensors",
+      "Check wiring",
+      "Scan ABS and transmission modules"
+    ]
+  },
+  {
+    "code": "P0501",
+    "description": "Vehicle Speed Sensor Range/Performance",
+    "category": "Vehicle Speed",
+    "severity": "Medium",
+    "estimatedRepairCost": "$70-$600",
+    "canDrive": "Drive carefully. Speedometer, ABS, and transmission behavior may be affected.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Speedometer not working",
+      "ABS warning light",
+      "Transmission shifting issues",
+      "Cruise control not working"
+    ],
+    "causes": [
+      "Faulty vehicle speed sensor",
+      "Wheel speed sensor issue",
+      "Damaged wiring",
+      "ABS module communication issue"
+    ],
+    "fixes": [
+      "Test vehicle speed sensor",
+      "Inspect wheel speed sensors",
+      "Check wiring",
+      "Scan ABS and transmission modules"
+    ]
+  },
+  {
+    "code": "P0502",
+    "description": "Vehicle Speed Sensor Low Input",
+    "category": "Vehicle Speed",
+    "severity": "Medium",
+    "estimatedRepairCost": "$70-$600",
+    "canDrive": "Drive carefully. Speedometer, ABS, and transmission behavior may be affected.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Speedometer not working",
+      "ABS warning light",
+      "Transmission shifting issues",
+      "Cruise control not working"
+    ],
+    "causes": [
+      "Faulty vehicle speed sensor",
+      "Wheel speed sensor issue",
+      "Damaged wiring",
+      "ABS module communication issue"
+    ],
+    "fixes": [
+      "Test vehicle speed sensor",
+      "Inspect wheel speed sensors",
+      "Check wiring",
+      "Scan ABS and transmission modules"
+    ]
+  },
+  {
+    "code": "P0503",
+    "description": "Vehicle Speed Sensor Intermittent/Erratic/High",
+    "category": "Vehicle Speed",
+    "severity": "Medium",
+    "estimatedRepairCost": "$70-$600",
+    "canDrive": "Drive carefully. Speedometer, ABS, and transmission behavior may be affected.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Speedometer not working",
+      "ABS warning light",
+      "Transmission shifting issues",
+      "Cruise control not working"
+    ],
+    "causes": [
+      "Faulty vehicle speed sensor",
+      "Wheel speed sensor issue",
+      "Damaged wiring",
+      "ABS module communication issue"
+    ],
+    "fixes": [
+      "Test vehicle speed sensor",
+      "Inspect wheel speed sensors",
+      "Check wiring",
+      "Scan ABS and transmission modules"
+    ]
+  },
+  {
+    "code": "P0700",
+    "description": "Transmission Control System Malfunction",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0715",
+    "description": "Input/Turbine Speed Sensor Circuit Malfunction",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0717",
+    "description": "Input/Turbine Speed Sensor Circuit No Signal",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0720",
+    "description": "Output Speed Sensor Circuit Malfunction",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0722",
+    "description": "Output Speed Sensor No Signal",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0730",
+    "description": "Incorrect Gear Ratio",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0740",
+    "description": "Torque Converter Clutch Circuit Malfunction",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0741",
+    "description": "Torque Converter Clutch Circuit Performance or Stuck Off",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0750",
+    "description": "Shift Solenoid A Malfunction",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0755",
+    "description": "Shift Solenoid B Malfunction",
+    "category": "Transmission",
+    "severity": "High",
+    "estimatedRepairCost": "$150-$3000",
+    "canDrive": "Drive cautiously. Stop driving if the transmission slips badly, overheats, or loses gears.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Harsh shifting",
+      "Transmission slipping",
+      "Delayed engagement",
+      "Transmission warning light",
+      "Reduced acceleration"
+    ],
+    "causes": [
+      "Low transmission fluid",
+      "Faulty shift solenoid",
+      "Speed sensor fault",
+      "Torque converter issue",
+      "Internal transmission wear"
+    ],
+    "fixes": [
+      "Scan transmission module",
+      "Check transmission fluid level and condition",
+      "Inspect wiring and connectors",
+      "Test solenoids and speed sensors",
+      "Seek transmission specialist diagnosis"
+    ]
+  },
+  {
+    "code": "P0600",
+    "description": "Serial Communication Link Malfunction",
+    "category": "ECU / Electrical",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0601",
+    "description": "Control Module Read Only Memory Error",
+    "category": "ECU / Electrical",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0602",
+    "description": "Control Module Programming Error",
+    "category": "ECU / Electrical",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0606",
+    "description": "PCM Processor Fault",
+    "category": "ECU / Electrical",
+    "severity": "High",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0560",
+    "description": "System Voltage Malfunction",
+    "category": "ECU / Electrical",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0562",
+    "description": "System Voltage Low",
+    "category": "ECU / Electrical",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0563",
+    "description": "System Voltage High",
+    "category": "ECU / Electrical",
+    "severity": "Medium",
+    "estimatedRepairCost": "$80-$2000",
+    "canDrive": "Depends on symptoms. Avoid driving if the vehicle stalls, loses power, or shows multiple critical warnings.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord"
+    ],
+    "symptoms": [
+      "Check Engine Light",
+      "No start",
+      "Multiple warning lights",
+      "Intermittent electrical faults"
+    ],
+    "causes": [
+      "Low battery voltage",
+      "Damaged wiring",
+      "Faulty control module",
+      "Poor ground connection",
+      "Communication network fault"
+    ],
+    "fixes": [
+      "Check battery and charging system",
+      "Inspect grounds and fuses",
+      "Scan all control modules",
+      "Check wiring harness",
+      "Verify ECU power and ground"
+    ]
+  },
+  {
+    "code": "P0200",
+    "description": "Injector Circuit Malfunction",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0201",
+    "description": "Injector Circuit Malfunction Cylinder 1",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0202",
+    "description": "Injector Circuit Malfunction Cylinder 2",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0203",
+    "description": "Injector Circuit Malfunction Cylinder 3",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  },
+  {
+    "code": "P0204",
+    "description": "Injector Circuit Malfunction Cylinder 4",
+    "category": "Fuel System",
+    "severity": "High",
+    "estimatedRepairCost": "$50-$1000",
+    "canDrive": "Usually drivable for short trips, but diagnose soon because lean or rich running can cause misfires and catalyst damage.",
+    "makes": [
+      "Toyota",
+      "Honda",
+      "Nissan",
+      "Ford",
+      "Chevrolet"
+    ],
+    "models": [
+      "Corolla",
+      "Camry",
+      "Civic",
+      "Accord",
+      "Altima",
+      "Sentra"
+    ],
+    "symptoms": [
+      "Rough idle",
+      "Poor acceleration",
+      "Engine hesitation",
+      "Poor fuel economy",
+      "Check Engine Light"
+    ],
+    "causes": [
+      "Vacuum leak",
+      "Dirty MAF sensor",
+      "Low fuel pressure",
+      "Faulty oxygen sensor",
+      "Leaking injector",
+      "Restricted fuel filter"
+    ],
+    "fixes": [
+      "Inspect intake system for leaks",
+      "Clean or test MAF sensor",
+      "Check fuel pressure",
+      "Monitor short-term and long-term fuel trims",
+      "Inspect oxygen sensor operation"
+    ]
+  }
+]

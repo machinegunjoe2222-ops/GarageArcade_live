@@ -1,0 +1,74 @@
+[
+  {
+    "id": "voidrunner",
+    "title": "Voidrunner",
+    "tagline": "3D space shooter",
+    "description": "Strap into the cockpit and aim with your reticle as drones, cruisers and asteroids barrel toward you out of the void. Full 3D, built on Three.js.",
+    "category": "game",
+    "status": "live",
+    "difficulty": 4,
+    "tags": ["3D", "Shooter", "Arcade"],
+    "icon": "turbo",
+    "url": "/games/voidrunner/index.html"
+  },
+  {
+    "id": "wiring-match",
+    "title": "Wiring Match",
+    "tagline": "ECU diagnostic memory game",
+    "description": "Every harness has been unplugged. Flip the connector pairs, match each sensor to its circuit, and clear the board before the diagnostic timer runs out.",
+    "category": "game",
+    "status": "live",
+    "difficulty": 2,
+    "tags": ["Memory", "ECU", "Quick Play"],
+    "icon": "ecu",
+    "url": "/games/wiring-match/index.html"
+  },
+  {
+    "id": "EngineAssembler",
+    "title": "Engine Assembler Game",
+    "tagline": "Drag and Drop Puzzle game",
+    "description": "Throw your hatchback sideways through a neon-lit night circuit. Chain drift angles for boost and chase the leaderboard ghost.",
+    "category": "game",
+    "status": "live",
+    "difficulty": 3,
+    "tags": ["Racing", "Arcade"],
+    "icon": "wheel",
+    "url": "/games/EngineAssembler/index.html"
+  },
+  {
+    "id": "OBDScanner",
+    "title": "OBD Expert",
+    "tagline": "Engine Breakdown? OBD Expert is in Town",
+    "description": "A torque-sequence puzzle in the spirit of classic logic grids — tighten bolts in the correct star pattern without warping the head gasket.",
+    "category": "game",
+    "status": "live",
+    "difficulty": 3,
+    "tags": ["Logic", "Workshop"],
+    "icon": "wrench",
+    "url": "/games/OBDScanner/index.html"
+  },
+  {
+    "id": "pit-stop-rush",
+    "title": "Pit Stop Rush",
+    "tagline": "Reflex tyre-change challenge",
+    "description": "Four wheels, one timer, zero margin for error. Tap the right tools in sequence to get your driver back on track before the field passes you by.",
+    "category": "game",
+    "status": "coming-soon",
+    "difficulty": 5,
+    "tags": ["Reflex", "Time Attack"],
+    "icon": "stopwatch",
+    "url": null
+  },
+  {
+    "id": "gear-ratio-riddles",
+    "title": "Gear Ratio Riddles",
+    "tagline": "Daily mechanical riddles",
+    "description": "A laid-back daily puzzle for grease-stained brains — gear ratios, drivetrain trivia and workshop riddles, one per day.",
+    "category": "game",
+    "status": "coming-soon",
+    "difficulty": 1,
+    "tags": ["Daily", "Trivia"],
+    "icon": "gear",
+    "url": null
+  }
+]

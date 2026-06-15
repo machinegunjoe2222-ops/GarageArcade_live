@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage Arcade — Games &amp; Puzzles, Tuned</title>
+<meta name="description" content="Garage Arcade: a grease-stained, turbo-charged hub of browser games, puzzles, and automotive diagnostics.">
+<link rel="canonical" href="/">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="grease grease-a" aria-hidden="true"></div>
+<div class="grease grease-b" aria-hidden="true"></div>
+<div class="grease grease-c" aria-hidden="true"></div>
+
+<header class="navbar">
+  <a class="nav-logo" href="#top">
+    <svg class="logo-gauge" viewBox="0 0 60 60" aria-hidden="true">
+      <circle cx="30" cy="30" r="27" class="gauge-ring"/>
+      <g class="gauge-ticks">
+        <line x1="30" y1="6" x2="30" y2="12"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(45 30 30)"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(90 30 30)"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(135 30 30)"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(180 30 30)"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(225 30 30)"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(270 30 30)"/>
+        <line x1="30" y1="6" x2="30" y2="12" transform="rotate(315 30 30)"/>
+      </g>
+      <line x1="30" y1="30" x2="30" y2="11" class="gauge-needle"/>
+      <circle cx="30" cy="30" r="3.5" class="gauge-hub"/>
+    </svg>
+    <span class="nav-wordmark">GARAGE<span class="accent">ARCADE</span></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#dtc">DTC Codes</a>
+    <a href="/codes/">All Codes</a>
+    <a href="#guides">Knowledge Base</a>
+    <a href="#games">Game Bay</a>
+    <a href="#specs">Build Sheet</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-content">
+      <p class="eyebrow"><span class="dot"></span> WORKSHOP ONLINE &mdash; ALL BAYS OPEN</p>
+      <h1>CAR KNOWLEDGE &amp; GAMES,<br>FRESHLY <span class="accent">TUNED</span></h1>
+      <p class="hero-sub">
+        A back-room arcade for grease-stained minds. Browser games, mechanical puzzles,
+        and diagnostic tools built lean and tuned for play.
+      </p>
+      <div class="hero-actions">
+        <a href="#games" class="ignition-btn">
+          <span class="ignition-ring"></span>
+          <span class="ignition-label">START<br>ENGINE</span>
+        </a>
+        <a href="#dtc" class="hero-link">Open the DTC code scanner &rarr;</a>
+      </div>
+    </div>
+    <div class="hero-dial" aria-hidden="true">
+      <svg viewBox="0 0 220 220">
+        <circle cx="110" cy="110" r="98" class="dial-ring-outer"/>
+        <circle cx="110" cy="110" r="80" class="dial-ring-inner"/>
+        <g class="dial-ticks">
+          <g id="dial-tick-group"></g>
+        </g>
+        <text x="110" y="100" class="dial-readout" text-anchor="middle">RPM</text>
+        <text x="110" y="128" class="dial-readout dial-readout-big" text-anchor="middle">x1000</text>
+        <line x1="110" y1="110" x2="110" y2="38" class="dial-needle"/>
+        <circle cx="110" cy="110" r="6" class="dial-hub"/>
+      </svg>
+    </div>
+  </section>
+
+  <section id="dtc" class="library-section">
+    <div class="section-head">
+      <p class="section-kicker">// BAY 01</p>
+      <h2>DIAGNOSTIC TROUBLE CODES</h2>
+      <p class="section-desc">
+        Search OBD2 codes by code, description, make, or model. Click any row to open the diagnostic report,
+        or <a class="hero-link" href="/codes/">browse the full code index &rarr;</a>
+      </p>
+    </div>
+
+    <div class="dtc-console">
+      <div class="dtc-toolbar">
+        <input id="dtcSearch" type="search" placeholder="Search code or description: P0300, misfire, oxygen sensor..." autocomplete="off">
+        <input id="dtcMake" type="search" placeholder="Make: Toyota, Daihatsu, Honda..." autocomplete="off">
+        <input id="dtcModel" type="search" placeholder="Model: Mira e:S, Corolla, Civic..." autocomplete="off">
+        <button id="dtcClear" type="button">CLEAR</button>
+      </div>
+
+      <div class="dtc-report-strip">
+        <div>
+          <span class="report-label">MATCHES</span>
+          <strong id="dtcCount">0</strong>
+        </div>
+        <div>
+          <span class="report-label">SELECTED CODE</span>
+          <strong id="dtcSelected">NONE</strong>
+        </div>
+        <div>
+          <span class="report-label">DATABASE</span>
+          <strong>OBD-II</strong>
+        </div>
+      </div>
+
+      <div class="dtc-table-wrap">
+        <table class="dtc-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Make</th>
+              <th>Model</th>
+            </tr>
+          </thead>
+          <tbody id="dtcTableBody">
+            <tr>
+              <td colspan="5">Loading diagnostic trouble codes...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="dtcModal" class="dtc-modal" aria-hidden="true">
+      <div class="dtc-modal-overlay" id="dtcModalOverlay"></div>
+      <div class="dtc-modal-content" role="dialog" aria-modal="true" aria-labelledby="dtcModalTitle">
+        <button id="dtcModalClose" class="dtc-modal-close" type="button" aria-label="Close diagnostic report">✕</button>
+        <div id="dtcModalBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guides" class="library-section">
+    <div class="section-head">
+      <p class="section-kicker">// BAY 02</p>
+      <h2>KNOWLEDGE BASE</h2>
+      <p class="section-desc">
+        Learn how engines, ECUs, sensors, OBD systems, and diagnostics work.
+      </p>
+    </div>
+    <div class="card-grid" id="guidesGrid">
+      <p class="grid-status">Loading workshop manuals&hellip;</p>
+    </div>
+  </section>
+
+  <section id="games" class="library-section">
+    <div class="section-head">
+      <p class="section-kicker">// BAY 03</p>
+      <h2>GAME BAY</h2>
+      <p class="section-desc">Full-throttle builds, ready to drop straight into the browser.</p>
+    </div>
+    <div class="card-grid" id="gamesGrid">
+      <p class="grid-status" data-loading>Pulling games from the rack&hellip;</p>
+    </div>
+  </section>
+
+  <section id="specs" class="specs-section">
+    <div class="section-head">
+      <p class="section-kicker">// SERVICE RECORD</p>
+      <h2>BUILD SHEET</h2>
+    </div>
+    <div class="spec-sheet">
+      <div class="spec-row">
+        <span class="spec-label">ENGINE</span>
+        <span class="spec-value">Node.js + Express</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">CHASSIS</span>
+        <span class="spec-value">Static front-end &mdash; HTML / CSS / vanilla JS</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">ECU</span>
+        <span class="spec-value">/data/*.json &mdash; add an entry, it shows up here</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">FINISH</span>
+        <span class="spec-value">Brushed steel, turbo glow, light grease</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-label">STATUS</span>
+        <span class="spec-value status-ok">ALL SYSTEMS NOMINAL</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="plate">
+    <span class="plate-bolt"></span>
+    <span class="plate-text">GARAGE&nbsp;ARCADE</span>
+    <span class="plate-bolt"></span>
+  </div>
+  <p class="footer-note">Built in the workshop &middot; new builds added regularly</p>
+</footer>
+
+<script src="script.js"></script>
+<script src="obd-codes.js"></script>
+</body>
+</html>

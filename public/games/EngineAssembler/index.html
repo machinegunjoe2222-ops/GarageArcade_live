@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Engine Builder — Diagnose &amp; Assemble</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root{
+    --bg:#0d0f13;
+    --panel: rgba(20,24,30,.86);
+    --metal-1:#2c313a;
+    --metal-2:#525a66;
+    --metal-3:#9aa4af;
+    --chrome:#eef1f4;
+    --line: rgba(255,255,255,.08);
+    --line-strong: rgba(255,255,255,.18);
+
+    --orange:#ff8a3d;
+    --orange-soft: rgba(255,138,61,.35);
+    --cyan:#2bd6ff;
+    --cyan-soft: rgba(43,214,255,.35);
+    --green:#5bffc6;
+    --red:#ff5e5e;
+    --amber:#ffb347;
+
+    --text:#e7eaee;
+    --text-dim:#919aa3;
+
+    --font-display:'Rajdhani', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  html,body{ margin:0; width:100%; height:100%; overflow:hidden; background:var(--bg); color:var(--text); font-family:var(--font-mono); touch-action:none; }
+  canvas{ display:block; position:fixed; inset:0; }
+
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--cyan); outline-offset:2px; }
+
+  /* ============ HUD ============ */
+  #hud{
+    position:fixed; top:0; left:0; right:0; z-index:20;
+    display:flex; flex-direction:column; gap:10px;
+    padding: 16px clamp(14px,3vw,30px);
+    pointer-events:none;
+  }
+  .hud-top{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .hud-chip{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:8px 16px; font-family:var(--font-display); font-weight:700; letter-spacing:.12em;
+    font-size:.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px;
+  }
+  .hud-chip .val{ color:var(--chrome); font-size:1.05rem; }
+  .hud-chip.timer .val{ color:var(--orange); }
+  .hud-chip.timer.low .val{ color:var(--red); animation: blink 0.6s steps(2) infinite; }
+  @keyframes blink{ 50%{ opacity:.3; } }
+  .hud-chip.phase .val{ color:var(--cyan); }
+  .hud-chip.score .val{ color:var(--green); }
+
+  .instructions{
+    align-self:center;
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:8px 18px; font-size:.78rem; letter-spacing:.04em; color:var(--text-dim);
+    text-align:center; max-width:90vw;
+  }
+  .instructions b{ color:var(--cyan); }
+
+  /* ============ Diagnostics checklist (right) ============ */
+  #checklist{
+    position:fixed; top:90px; right:clamp(14px,3vw,30px); z-index:20;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:12px 16px; min-width:190px; pointer-events:none;
+  }
+  #checklist.hidden{ display:none; }
+  #checklist h3{
+    margin:0 0 8px; font-family:var(--font-display); font-size:.7rem; font-weight:700;
+    letter-spacing:.18em; color:var(--text-dim);
+  }
+  #checklist ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  #checklist li{
+    font-size:.78rem; letter-spacing:.04em; color:var(--text-dim);
+    display:flex; align-items:center; gap:8px;
+  }
+  #checklist li.found{ color:var(--green); }
+  #checklist li .mark{
+    width:16px; height:16px; border-radius:50%; border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; font-size:.6rem; flex:none;
+  }
+  #checklist li.found .mark{ background:var(--green); border-color:var(--green); color:#06140e; }
+
+  /* ============ Diagnostic readout panel (left) ============ */
+  #diagnosticPanel{
+    position:fixed; top:90px; left:clamp(14px,3vw,30px); z-index:20;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:12px 16px; max-width:260px; pointer-events:none;
+  }
+  #diagnosticPanel.hidden{ display:none; }
+  #diagnosticPanel h3{
+    margin:0 0 8px; font-family:var(--font-display); font-size:.7rem; font-weight:700;
+    letter-spacing:.18em; color:var(--text-dim);
+  }
+  #diagnosticPanel ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  #diagnosticPanel li{
+    font-size:.72rem; letter-spacing:.02em; line-height:1.4; color:var(--text-dim);
+    display:flex; align-items:flex-start; gap:8px;
+  }
+  #diagnosticPanel li.resolved{ color:var(--green); }
+  #diagnosticPanel .dot{
+    width:8px; height:8px; border-radius:50%; flex:none; margin-top:3px;
+  }
+  #diagnosticPanel .dot.warn{ background:var(--amber); box-shadow:0 0 6px var(--amber); animation: blink 1.4s ease-in-out infinite; }
+  #diagnosticPanel .dot.ok{ background:var(--green); box-shadow:0 0 6px var(--green); }
+
+  /* ============ Tray ============ */
+  #trayPanel{
+    position:fixed; bottom:0; left:0; right:0; z-index:20;
+    display:flex; justify-content:center;
+    padding: 14px clamp(10px,3vw,24px) 18px;
+    pointer-events:none;
+  }
+  #trayPanel.hidden{ display:none; }
+  .tray-inner{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:12px 16px; max-width: 96vw; pointer-events:all;
+  }
+  .tray-title{
+    font-family:var(--font-display); font-weight:700; letter-spacing:.16em;
+    font-size:.68rem; color:var(--text-dim); text-align:center; margin-bottom:8px;
+    text-transform:uppercase;
+  }
+  #tray{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; max-width:100%; }
+  .tray-card{
+    width:96px; padding:10px 8px; border-radius:10px; text-align:center;
+    background:var(--metal-1); border:1px solid var(--line-strong);
+    cursor:pointer; transition: transform .15s ease, box-shadow .15s ease;
+    touch-action:none;
+  }
+  .tray-card:hover{ transform:translateY(-2px); }
+  .tray-card.selected{ box-shadow:0 0 0 3px var(--cyan), 0 0 14px var(--cyan-soft); transform:translateY(-3px); }
+  .tray-card.wrong{ animation: shake-card .35s ease; }
+  @keyframes shake-card{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-5px); }
+    75%{ transform:translateX(5px); }
+  }
+  .tray-icon{
+    width:38px; height:38px; margin:0 auto 6px;
+  }
+  .tray-icon svg{ width:100%; height:100%; display:block; }
+  .tray-name{
+    font-family:var(--font-display); font-weight:700; letter-spacing:.04em;
+    font-size:.66rem; line-height:1.2; color:var(--text);
+    text-transform:uppercase;
+  }
+
+  /* drag ghost */
+  #dragGhost{
+    position:fixed; z-index:60; pointer-events:none;
+    transform:translate(-50%,-50%); opacity:.92;
+  }
+  #dragGhost.hidden{ display:none; }
+  #dragGhost .tray-card{ box-shadow:0 8px 24px rgba(0,0,0,.5); cursor:grabbing; }
+
+  /* ============ Screens ============ */
+  .screen{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    background: rgba(8,9,12,.82); padding:20px;
+  }
+  .hidden{ display:none !important; }
+  .card{
+    background:var(--panel); border:1px solid var(--line-strong); border-radius:16px;
+    padding: 32px clamp(22px,5vw,48px); max-width:480px; text-align:center;
+    box-shadow:0 24px 64px rgba(0,0,0,.6);
+  }
+  .card h1, .card h2{
+    font-family:var(--font-display); font-weight:700; letter-spacing:.08em;
+    color:var(--chrome); margin:0 0 12px;
+  }
+  .card h1{ font-size:clamp(1.6rem,5.5vw,2.4rem); }
+  .card h2{ font-size:clamp(1.3rem,4.5vw,1.9rem); }
+  .card p{ color:var(--text-dim); font-size:.92rem; line-height:1.7; margin:0 0 18px; }
+  .card .accent{ color:var(--cyan); }
+  .btn{
+    font-family:var(--font-display); font-weight:700; letter-spacing:.14em; font-size:.88rem;
+    text-transform:uppercase; padding:12px 30px; border-radius:9px; cursor:pointer;
+    border:1px solid var(--line-strong); background:var(--metal-2); color:var(--chrome);
+    transition: filter .15s ease, transform .15s ease;
+  }
+  .btn:hover{ filter:brightness(1.15); transform:translateY(-1px); }
+  .btn.primary{ background:linear-gradient(180deg, var(--chrome), var(--metal-3)); color:#0b0c0f; border-color:transparent; }
+
+  .missing-list{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:0 0 20px;
+  }
+  .missing-list span{
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.06em;
+    background:var(--metal-1); border:1px solid var(--line); border-radius:6px;
+    padding:5px 10px; color:var(--amber);
+  }
+
+  .score-breakdown{
+    text-align:left; display:flex; flex-direction:column; gap:6px; margin:0 0 18px;
+    font-size:.85rem; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line);
+    padding:14px 0;
+  }
+  .score-breakdown .row{ display:flex; justify-content:space-between; color:var(--text-dim); }
+  .score-breakdown .row span:last-child{ color:var(--chrome); font-family:var(--font-display); font-weight:700; }
+  .score-breakdown .row.total{ margin-top:6px; padding-top:8px; border-top:1px solid var(--line-strong); }
+  .score-breakdown .row.total span:last-child{ color:var(--green); font-size:1.1rem; }
+  .rating{
+    font-family:var(--font-display); font-weight:700; letter-spacing:.14em;
+    font-size:1.1rem; color:var(--amber); margin: 0 0 18px; text-shadow:0 0 12px rgba(255,179,71,.4);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  }
+  @media (max-width: 900px){
+    #diagnosticPanel{ display:none; }
+  }
+  @media (max-width: 640px){
+    #checklist{ min-width:150px; padding:10px 12px; }
+    .tray-card{ width:80px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+
+<!-- ============ HUD ============ -->
+<div id="hud">
+  <div class="hud-top">
+    <div class="hud-chip phase"><span>PHASE</span><span class="val" id="phaseVal">STANDBY</span></div>
+    <div class="hud-chip timer" id="timerChip"><span>TIME</span><span class="val" id="timerVal">--</span></div>
+    <div class="hud-chip score"><span>SCORE</span><span class="val" id="scoreVal">0</span></div>
+  </div>
+  <div class="instructions" id="instructions"></div>
+</div>
+
+<div id="diagnosticPanel" class="hidden">
+  <h3>Diagnostic Readout</h3>
+  <ul id="diagnosticItems"></ul>
+</div>
+
+<div id="checklist" class="hidden">
+  <h3>Missing Parts</h3>
+  <ul id="checklistItems"></ul>
+</div>
+
+<!-- ============ Tray ============ -->
+<div id="trayPanel" class="hidden">
+  <div class="tray-inner">
+    <div class="tray-title">Spare Parts — drag or tap, then place on a glowing socket</div>
+    <div id="tray"></div>
+  </div>
+</div>
+<div id="dragGhost" class="hidden"></div>
+
+<!-- ============ Screens ============ -->
+<div class="screen" id="introScreen">
+  <div class="card">
+    <h1>ENGINE BUILDER</h1>
+    <p>
+      A customer dropped off this engine half-disassembled. Rotate it (drag with
+      your mouse or finger), <span class="accent">find the missing parts</span> during
+      diagnostics, then <span class="accent">drag the right part onto the glowing socket</span>
+      to bolt it back on — all before the clock runs out.
+    </p>
+    <button class="btn primary" id="startBtn">Start Diagnostics</button>
+  </div>
+</div>
+
+<div class="screen hidden" id="diagScreen">
+  <div class="card">
+    <h2>Diagnostics Complete</h2>
+    <p id="diagSummary">—</p>
+    <div class="missing-list" id="missingList"></div>
+    <button class="btn primary" id="assembleBtn">Begin Assembly</button>
+  </div>
+</div>
+
+<div class="screen hidden" id="endScreen">
+  <div class="card">
+    <h2 id="endTitle">—</h2>
+    <p id="endSummary">—</p>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <div class="rating" id="ratingVal">—</div>
+    <button class="btn primary" id="restartBtn">Build Another Engine</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// ============================================================
+//  ENGINE BUILDER — game.js
+//  3D engine block built from primitives; diagnostics phase
+//  (find missing parts by rotating the engine) followed by an
+//  assembly phase (drag/tap parts onto glowing sockets).
+// ============================================================
+(function(){
+  "use strict";
+
+  // ============================================================
+  // Renderer / Scene / Camera
+  // ============================================================
+  const canvas = document.getElementById('scene');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0d0f13);
+  scene.fog = new THREE.FogExp2(0x0d0f13, 0.045);
+
+  const camera = new THREE.PerspectiveCamera(42, window.innerWidth/window.innerHeight, 0.1, 100);
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // ============================================================
+  // Procedural textures (cast-metal speckle, workshop floor, pegboard, contact shadow)
+  // ============================================================
+  function makeCastTexture(base, speckleRGB){
+    const size = 256;
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = base; ctx.fillRect(0,0,size,size);
+    for(let i=0;i<2600;i++){
+      const x = Math.random()*size, y = Math.random()*size, r = Math.random()*1.3;
+      ctx.fillStyle = 'rgba(' + speckleRGB + ',' + (Math.random()*0.16).toFixed(2) + ')';
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    for(let i=0;i<260;i++){
+      ctx.fillStyle = 'rgba(0,0,0,' + (Math.random()*0.12).toFixed(2) + ')';
+      ctx.fillRect(Math.random()*size, Math.random()*size, 2, 2);
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(2,2);
+    return tex;
+  }
+
+  function makeFloorTexture(){
+    const size = 512;
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#14171d'; ctx.fillRect(0,0,size,size);
+    ctx.strokeStyle = 'rgba(255,255,255,0.045)'; ctx.lineWidth = 2;
+    for(let i=0;i<=size;i+=size/10){
+      ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,size); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(size,i); ctx.stroke();
+    }
+    for(let i=0;i<5000;i++){
+      ctx.fillStyle = 'rgba(255,255,255,' + (Math.random()*0.03).toFixed(2) + ')';
+      ctx.fillRect(Math.random()*size, Math.random()*size, 1, 1);
+    }
+    for(let i=0;i<4;i++){
+      const x = Math.random()*size, y = Math.random()*size, r = 50+Math.random()*90;
+      const grad = ctx.createRadialGradient(x,y,0,x,y,r);
+      grad.addColorStop(0,'rgba(4,6,8,0.55)');
+      grad.addColorStop(1,'rgba(4,6,8,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.ellipse(x,y,r,r*0.6,Math.random()*Math.PI,0,Math.PI*2); ctx.fill();
+    }
+    return new THREE.CanvasTexture(c);
+  }
+
+  function makePegboardTexture(){
+    const size = 512;
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#363b44'; ctx.fillRect(0,0,size,size);
+    for(let i=0;i<5;i++){
+      ctx.fillStyle = 'rgba(255,255,255,0.02)';
+      ctx.fillRect(0, i*(size/5), size, 2);
+    }
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    for(let y=26;y<size;y+=32){
+      for(let x=26;x<size;x+=32){
+        ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill();
+      }
+    }
+    // wrench silhouette
+    ctx.save(); ctx.translate(110,150); ctx.rotate(-0.35);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(-8,-70,16,140);
+    ctx.beginPath(); ctx.arc(0,-78,20,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0,78,20,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    // screwdriver silhouette
+    ctx.save(); ctx.translate(380,330); ctx.rotate(0.25);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(-7,-80,14,100);
+    ctx.fillRect(-12,20,24,46);
+    ctx.restore();
+    // hanging hose loop
+    ctx.save(); ctx.translate(250,90);
+    ctx.strokeStyle='rgba(0,0,0,0.45)'; ctx.lineWidth=10; ctx.lineCap='round';
+    ctx.beginPath(); ctx.arc(0,0,46,0.2,Math.PI*1.8); ctx.stroke();
+    ctx.restore();
+    return new THREE.CanvasTexture(c);
+  }
+
+  function makeShadowTexture(){
+    const size = 256;
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const grad = ctx.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+    grad.addColorStop(0,'rgba(0,0,0,0.55)');
+    grad.addColorStop(0.7,'rgba(0,0,0,0.25)');
+    grad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,size,size);
+    return new THREE.CanvasTexture(c);
+  }
+
+  // ---------- Lights ----------
+  scene.add(new THREE.HemisphereLight(0x8fb3d9, 0x1a1208, 0.85));
+  scene.add(new THREE.AmbientLight(0x445566, 0.5));
+  const keyLight = new THREE.DirectionalLight(0xfff2e0, 1.15);
+  keyLight.position.set(5, 8, 6);
+  scene.add(keyLight);
+  const rimLight = new THREE.DirectionalLight(0x2bd6ff, 0.55);
+  rimLight.position.set(-6, 3, -6);
+  scene.add(rimLight);
+  const fillLight = new THREE.PointLight(0xff8a3d, 0.45, 22);
+  fillLight.position.set(0, -2, 5);
+  scene.add(fillLight);
+  // overhead shop lights
+  [-3.5, 3.5].forEach((x) => {
+    const lamp = new THREE.PointLight(0xfff6dd, 0.5, 16);
+    lamp.position.set(x, 6, 1);
+    scene.add(lamp);
+    const bulb = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 12, 12),
+      new THREE.MeshBasicMaterial({ color:0xfff6dd })
+    );
+    bulb.position.copy(lamp.position);
+    scene.add(bulb);
+  });
+
+  // ---------- Ground & shadow decal ----------
+  const ground = new THREE.Mesh(
+    new THREE.CircleGeometry(14, 48),
+    new THREE.MeshStandardMaterial({ map: makeFloorTexture(), metalness:0.15, roughness:0.95 })
+  );
+  ground.rotation.x = -Math.PI/2;
+  ground.position.y = -2.55;
+  scene.add(ground);
+
+  const shadowDecal = new THREE.Mesh(
+    new THREE.CircleGeometry(3.6, 32),
+    new THREE.MeshBasicMaterial({ map: makeShadowTexture(), transparent:true, depthWrite:false })
+  );
+  shadowDecal.rotation.x = -Math.PI/2;
+  shadowDecal.position.y = -2.54;
+  scene.add(shadowDecal);
+
+  // ---------- Garage backdrop ----------
+  const backWall = new THREE.Mesh(
+    new THREE.PlaneGeometry(22, 11),
+    new THREE.MeshStandardMaterial({ map: makePegboardTexture(), metalness:0.05, roughness:0.95 })
+  );
+  backWall.position.set(0, 2, -7.5);
+  scene.add(backWall);
+
+  const shelfMat = new THREE.MeshStandardMaterial({ color:0x2c313a, metalness:0.4, roughness:0.6 });
+  const shelf = new THREE.Mesh(new THREE.BoxGeometry(6.5, 0.12, 0.7), shelfMat);
+  shelf.position.set(4.2, 1.6, -7.1);
+  scene.add(shelf);
+  const binColors = [0xff8a3d, 0x3a6ea5, 0x5bffc6, 0xffb347];
+  for(let i=0;i<4;i++){
+    const bin = new THREE.Mesh(
+      new THREE.BoxGeometry(0.85, 0.55, 0.6),
+      new THREE.MeshStandardMaterial({ color: binColors[i], metalness:0.15, roughness:0.7 })
+    );
+    bin.position.set(1.7 + i*1.05, 1.95, -7.0);
+    scene.add(bin);
+  }
+
+  // ---------- Turntable (rotated by player input) ----------
+  const turntable = new THREE.Group();
+  scene.add(turntable);
+
+  const standMat = new THREE.MeshStandardMaterial({ color:0x2c313a, metalness:0.35, roughness:0.6 });
+  const stand = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.9, 0.35, 48), standMat);
+  stand.scale.x = 1.7;
+  stand.position.y = -2.25;
+  turntable.add(stand);
+  const standRim = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.05, 8, 48), metalMat(0xff8a3d, 0.4, 0.4));
+  standRim.rotation.x = Math.PI/2;
+  standRim.scale.x = 1.7;
+  standRim.position.y = -2.08;
+  turntable.add(standRim);
+
+  const engineGroup = new THREE.Group();
+  turntable.add(engineGroup);
+
+  // ============================================================
+  // Camera orbit-lite
+  // ============================================================
+  let camDistance = 9.6;
+  let camElevation = 0.4; // radians above horizontal
+  let camAzimuthOffset = 0.55;
+
+  function updateCamera(){
+    const x = Math.sin(camAzimuthOffset) * camDistance * Math.cos(camElevation);
+    const z = Math.cos(camAzimuthOffset) * camDistance * Math.cos(camElevation);
+    const y = Math.sin(camElevation) * camDistance + 0.2;
+    camera.position.set(x, y, z);
+    camera.lookAt(0, 0.1, 0);
+  }
+  updateCamera();
+
+  // ============================================================
+  // Material / part helpers
+  // ============================================================
+  function metalMat(color, metalness, roughness){
+    return new THREE.MeshStandardMaterial({ color, metalness: metalness===undefined?0.5:metalness, roughness: roughness===undefined?0.45:roughness });
+  }
+  function castMat(color, speckleRGB, metalness, roughness){
+    const m = metalMat(color, metalness, roughness);
+    m.map = makeCastTexture(color, speckleRGB);
+    return m;
+  }
+  function buildBolt(radius, height, color){
+    return new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, height, 6), metalMat(color || 0xc7ccd1, 0.85, 0.2));
+  }
+
+  // ============================================================
+  // Part builders (all centered on local origin)
+  // ============================================================
+  // Six cylinders in a row along X (inline-6 layout)
+  const CYL_X = [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5];
+
+  function buildEngineBlock(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(6.0, 1.9, 1.7), castMat('#5a6675','150,160,172', 0.45, 0.5)));
+
+    const boreMat = metalMat(0x14171d, 0.2, 0.8);
+    CYL_X.forEach((x) => {
+      const bore = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.12, 20), boreMat);
+      bore.position.set(x, 0.95, 0);
+      g.add(bore);
+    });
+
+    // cooling fin ridges along both long sides
+    const finMat = metalMat(0x4d5663, 0.4, 0.55);
+    [-0.7, -0.35, 0, 0.35].forEach((y) => {
+      const finA = new THREE.Mesh(new THREE.BoxGeometry(5.7, 0.1, 0.05), finMat);
+      finA.position.set(0, y, 0.875);
+      g.add(finA);
+      const finB = finA.clone(); finB.position.z = -0.875; g.add(finB);
+    });
+
+    // timing-cover bolt bosses on the front (-X) end face
+    const bossMat = metalMat(0x71798a, 0.5, 0.45);
+    [[-0.55,0.4],[0.55,0.4],[-0.55,-0.4],[0.55,-0.4]].forEach((p) => {
+      const boss = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.1, 12), bossMat);
+      boss.rotation.z = Math.PI/2;
+      boss.position.set(-3.0, p[0], p[1]);
+      g.add(boss);
+      const bolt = buildBolt(0.07, 0.12, 0xc7ccd1);
+      bolt.rotation.z = Math.PI/2;
+      bolt.position.set(-3.07, p[0], p[1]);
+      g.add(bolt);
+    });
+    return g;
+  }
+
+  function buildHeadGasket(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.1, 1.8), metalMat(0xff8a3d, 0.3, 0.6)));
+    const holeMat = metalMat(0x14171d, 0.2, 0.8);
+    CYL_X.forEach((x) => {
+      const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.12, 20), holeMat);
+      hole.position.set(x, 0, 0);
+      g.add(hole);
+    });
+    // perimeter bolt holes along both long edges
+    [-2.85, -1.7, -0.55, 0.55, 1.7, 2.85].forEach((x) => {
+      [-0.78, 0.78].forEach((z) => {
+        const h = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.12, 10), holeMat);
+        h.position.set(x, 0, z);
+        g.add(h);
+      });
+    });
+    return g;
+  }
+
+  function buildCylinderHead(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(6.0, 0.85, 1.7), castMat('#8b97a5','200,206,216', 0.5, 0.4)));
+    const bumpMat = metalMat(0x6b7785, 0.55, 0.35);
+    CYL_X.forEach((x) => {
+      const bump = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.2, 14), bumpMat);
+      bump.position.set(x, 0.3, 0);
+      g.add(bump);
+    });
+    // intake ports (+Z, toward the intake manifold) and exhaust ports (-Z, toward the header)
+    const portMat = metalMat(0x14171d, 0.2, 0.8);
+    CYL_X.forEach((x) => {
+      const portI = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.28, 0.14), portMat);
+      portI.position.set(x, 0.05, 0.85);
+      g.add(portI);
+      const portE = portI.clone(); portE.position.z = -0.85; g.add(portE);
+    });
+    // edge bolts along both long sides
+    [-2.6, -1.0, 1.0, 2.6].forEach((x) => {
+      [-0.78, 0.78].forEach((z) => {
+        const bolt = buildBolt(0.08, 0.16, 0xc7ccd1);
+        bolt.position.set(x, 0.35, z);
+        g.add(bolt);
+      });
+    });
+    return g;
+  }
+
+  function buildHeadCover(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.4, 1.6), metalMat(0x232730, 0.6, 0.35)));
+    const ribMat = metalMat(0x32373f, 0.6, 0.35);
+    [-0.5, 0, 0.5].forEach((z) => {
+      const rib = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.06, 0.12), ribMat);
+      rib.position.set(0, 0.23, z);
+      g.add(rib);
+    });
+    // oil filler cap
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.14, 18), metalMat(0xff8a3d, 0.4, 0.4));
+    cap.position.set(2.55, 0.27, -0.45);
+    g.add(cap);
+    const capTop = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.04, 18), metalMat(0x2c4f73, 0.4, 0.4));
+    capTop.position.set(2.55, 0.34, -0.45);
+    g.add(capTop);
+    // fuel rail running the length of the head, with an injector over each cylinder
+    const railMat = metalMat(0x4a5560, 0.6, 0.3);
+    const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 5.4, 10), railMat);
+    rail.rotation.z = Math.PI/2;
+    rail.position.set(0, 0.34, 0.58);
+    g.add(rail);
+    const injMat = metalMat(0x14171d, 0.4, 0.4);
+    CYL_X.forEach((x) => {
+      const inj = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.32, 10), injMat);
+      inj.position.set(x, 0.2, 0.58);
+      g.add(inj);
+      const conn = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.06, 10), railMat);
+      conn.position.set(x, 0.34, 0.58);
+      g.add(conn);
+    });
+    // logo plate
+    const plate = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.04, 0.35), metalMat(0xc7ccd1, 0.7, 0.3));
+    plate.position.set(-1.6, 0.23, -0.5);
+    g.add(plate);
+    const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.045, 0.07), metalMat(0xff8a3d, 0.4, 0.4));
+    stripe.position.set(-1.6, 0.235, -0.5);
+    g.add(stripe);
+    // perimeter bolts
+    [-2.6, -1.3, 0, 1.3, 2.6].forEach((x) => {
+      [-0.75, 0.75].forEach((z) => {
+        const bolt = buildBolt(0.05, 0.13, 0xc7ccd1);
+        bolt.position.set(x, 0.23, z);
+        g.add(bolt);
+      });
+    });
+    return g;
+  }
+
+  function buildOilPanGasket(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.08, 1.8), metalMat(0xff8a3d, 0.3, 0.6)));
+    const holeMat = metalMat(0x14171d, 0.2, 0.8);
+    [-2.85, -1.4, 0, 1.4, 2.85].forEach((x) => {
+      [-0.78, 0.78].forEach((z) => {
+        const h = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.1, 10), holeMat);
+        h.position.set(x, 0, z);
+        g.add(h);
+      });
+    });
+    return g;
+  }
+
+  function buildOilPan(){
+    const g = new THREE.Group();
+    const mat = castMat('#6b7785','150,160,172', 0.5, 0.45);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.35, 1.8), mat);
+    top.position.y = 0.175;
+    g.add(top);
+    const sump = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.7, 1.5), mat);
+    sump.position.set(0.8, -0.35, 0);
+    g.add(sump);
+    const sumpFront = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.35, 1.5), mat);
+    sumpFront.position.set(-2.0, 0, 0);
+    g.add(sumpFront);
+    // drain bolt + washer
+    const washer = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.02, 8, 16), metalMat(0xff8a3d, 0.4, 0.5));
+    washer.rotation.x = Math.PI/2;
+    washer.position.set(1.2, -0.68, 0.5);
+    g.add(washer);
+    const bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.18, 6), metalMat(0xc7ccd1, 0.8, 0.2));
+    bolt.rotation.x = Math.PI/2;
+    bolt.position.set(1.2, -0.68, 0.52);
+    g.add(bolt);
+    // perimeter mounting bolts along top flange
+    [-2.85, -1.4, 0, 1.4, 2.85].forEach((x) => {
+      [-0.85, 0.85].forEach((z) => {
+        const b = buildBolt(0.05, 0.1, 0xc7ccd1);
+        b.position.set(x, 0.37, z);
+        g.add(b);
+      });
+    });
+    return g;
+  }
+
+  function buildIntakeManifold(){
+    const g = new THREE.Group();
+    const mat = metalMat(0x3a6ea5, 0.4, 0.45);
+    const plenum = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.5, 0.5), mat);
+    plenum.position.set(0, 0.15, 0.05);
+    g.add(plenum);
+    const runnerMat = metalMat(0x2c4f73, 0.4, 0.45);
+    CYL_X.forEach((x) => {
+      const runner = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.16, 0.5, 10), runnerMat);
+      runner.rotation.x = Math.PI/2;
+      runner.position.set(x, -0.05, -0.35);
+      g.add(runner);
+    });
+    // throttle body + butterfly valve at one end
+    const tb = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.55, 16), metalMat(0x9aa4af, 0.6, 0.3));
+    tb.rotation.z = Math.PI/2;
+    tb.position.set(2.85, 0.15, 0.05);
+    g.add(tb);
+    const butterfly = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.03, 16), metalMat(0x5a6675, 0.6, 0.3));
+    butterfly.rotation.x = Math.PI/2.6;
+    butterfly.position.set(2.85, 0.15, 0.05);
+    g.add(butterfly);
+    const linkage = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.35, 8), metalMat(0xc7ccd1, 0.8, 0.2));
+    linkage.position.set(2.85, 0.5, 0.05);
+    g.add(linkage);
+    // support brackets bolting the plenum back to the head
+    [-1.8, 1.8].forEach((x) => {
+      const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.55, 0.18), runnerMat);
+      bracket.position.set(x, -0.3, -0.45);
+      g.add(bracket);
+    });
+    return g;
+  }
+
+  function buildExhaustManifold(){
+    const g = new THREE.Group();
+    const mat = metalMat(0x33363c, 0.6, 0.4);
+    CYL_X.forEach((x) => {
+      const start = new THREE.Vector3(x, 1.27, 0.42);
+      const mid = new THREE.Vector3(x*0.7, 0.4, 0.15);
+      const end = new THREE.Vector3(0, -0.55, -0.05);
+      const curve = new THREE.CatmullRomCurve3([start, mid, end]);
+      const pipe = new THREE.Mesh(new THREE.TubeGeometry(curve, 12, 0.12, 8, false), mat);
+      g.add(pipe);
+      const flangeBolt = buildBolt(0.05, 0.14, 0xc7ccd1);
+      flangeBolt.rotation.x = Math.PI/2;
+      flangeBolt.position.set(x, 1.32, 0.5);
+      g.add(flangeBolt);
+    });
+    // collector pipe running the length, gathering all six headers
+    const collector = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 5.6, 14), mat);
+    collector.rotation.z = Math.PI/2;
+    collector.position.set(0, -0.62, -0.05);
+    g.add(collector);
+    // heat shield over the header pipes
+    const shield = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.95, 0.95, 5.6, 18, 1, true, Math.PI*0.05, Math.PI*0.7),
+      metalMat(0xaeb3bb, 0.3, 0.6)
+    );
+    shield.rotation.z = Math.PI/2;
+    shield.position.set(0, 0.55, -0.15);
+    g.add(shield);
+    return g;
+  }
+
+  function buildWaterPump(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.5, 22), metalMat(0xa8b0b8, 0.6, 0.3)));
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.62, 12), metalMat(0x6b7785, 0.6, 0.3)));
+    // hose nubs
+    const hoseNubMat = metalMat(0x6b7785, 0.5, 0.4);
+    const nub1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.3, 10), hoseNubMat);
+    nub1.rotation.z = Math.PI/2.3;
+    nub1.position.set(0.3, 0.32, 0);
+    g.add(nub1);
+    const nub2 = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.26, 10), hoseNubMat);
+    nub2.rotation.x = Math.PI/2.4;
+    nub2.position.set(-0.32, -0.1, 0.1);
+    g.add(nub2);
+    // mounting bolts
+    [[-0.3,-0.3],[0.3,-0.3],[-0.3,0.3],[0.3,0.3]].forEach((p) => {
+      const bolt = buildBolt(0.05, 0.1, 0x9aa4af);
+      bolt.position.set(p[0], 0.2, p[1]);
+      g.add(bolt);
+    });
+    return g;
+  }
+
+  function buildOilFilter(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.65, 18), metalMat(0xd9883a, 0.4, 0.5)));
+    const ridgeMat = metalMat(0xb56e28, 0.4, 0.5);
+    for(let i=0;i<5;i++){
+      const ridge = new THREE.Mesh(new THREE.TorusGeometry(0.285, 0.02, 8, 18), ridgeMat);
+      ridge.rotation.x = Math.PI/2;
+      ridge.position.y = -0.24 + i*0.12;
+      g.add(ridge);
+    }
+    // base flange where it threads onto the block
+    const flange = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.08, 18), metalMat(0x9aa4af, 0.5, 0.4));
+    flange.position.y = -0.36;
+    g.add(flange);
+    return g;
+  }
+
+  function buildTimingPulley(){
+    const g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 0.18, 26), metalMat(0xc7ccd1, 0.7, 0.25)));
+    const groove = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.04, 8, 26), metalMat(0x8b9097, 0.7, 0.25));
+    groove.rotation.x = Math.PI/2;
+    g.add(groove);
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.22, 14), metalMat(0x5a6675, 0.6, 0.3)));
+    // hex bolt head detail at hub
+    const hexBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.22, 6), metalMat(0x9aa4af, 0.85, 0.2));
+    g.add(hexBolt);
+    return g;
+  }
+
+  // ============================================================
+  // Slot definitions
+  // ============================================================
+  const SLOTS = [
+    { id:'head_gasket',     name:'Head Gasket',          shape:'gasket', pos:[0, 1.0, 0],         rot:[0,0,0],        size:[6.3, 0.18, 1.9],  color:0xff8a3d, build:buildHeadGasket },
+    { id:'cylinder_head',   name:'Cylinder Head',        shape:'block',  pos:[0, 1.475, 0],       rot:[0,0,0],        size:[6.1, 0.95, 1.8],  color:0x8b97a5, build:buildCylinderHead },
+    { id:'head_cover',      name:'Head Cover',           shape:'cover',  pos:[0, 2.1, 0],         rot:[0,0,0],        size:[5.9, 0.7, 1.7],   color:0x3a4250, build:buildHeadCover },
+    { id:'oil_pan_gasket',  name:'Oil Pan Gasket',       shape:'gasket', pos:[0, -1.0, 0],        rot:[0,0,0],        size:[6.3, 0.16, 1.9],  color:0xff8a3d, build:buildOilPanGasket },
+    { id:'oil_pan',         name:'Oil Pan',              shape:'pan',    pos:[0, -1.39, 0],       rot:[0,0,0],        size:[6.3, 1.3, 1.9],   color:0x6b7785, build:buildOilPan },
+    { id:'intake_manifold', name:'Intake Manifold',      shape:'pipe',   pos:[0, 1.475, 1.35],    rot:[0,0,0],        size:[5.6, 1.1, 1.2],   color:0x3a6ea5, build:buildIntakeManifold },
+    { id:'exhaust_manifold',name:'Exhaust Manifold',     shape:'pipe',   pos:[0, 0.2, -1.4],      rot:[0,0,0],        size:[5.8, 2.1, 1.5],   color:0x33363c, build:buildExhaustManifold },
+    { id:'water_pump',      name:'Water Pump',           shape:'round',  pos:[-3.25, 0.45, -0.3], rot:[0,0,Math.PI/2],size:[0.55, 0.95, 0.95],color:0xa8b0b8, build:buildWaterPump },
+    { id:'oil_filter',      name:'Oil Filter',           shape:'round',  pos:[-3.1, -0.75, 0.65], rot:[0,0,Math.PI/2],size:[0.8, 0.65, 0.65], color:0xd9883a, build:buildOilFilter },
+    { id:'timing_pulley',   name:'Timing Belt Pulley',   shape:'round',  pos:[-3.25, -0.5, 0.4],  rot:[0,0,Math.PI/2],size:[0.45, 1.0, 1.0],  color:0xc7ccd1, build:buildTimingPulley }
+  ];
+  const SLOT_BY_ID = {};
+  SLOTS.forEach(s => SLOT_BY_ID[s.id] = s);
+
+  // Flavor text for the diagnostic readout — what symptom each missing part causes
+  const SYMPTOMS = {
+    head_gasket:      'Coolant mixing with oil \u2014 milky residue on the dipstick',
+    cylinder_head:    'Compression test FAILED on all cylinders',
+    head_cover:       'Oil mist visible around the top of the engine',
+    oil_pan_gasket:   'Oil seeping and pooling beneath the block',
+    oil_pan:          'No oil reservoir detected \u2014 sump is empty',
+    intake_manifold:  'Vacuum leak detected \u2014 idle is rough and high',
+    exhaust_manifold: 'Exhaust leak \u2014 loud ticking at idle',
+    water_pump:       'Coolant flow: NONE \u2014 pump is missing',
+    oil_filter:       'Oil pressure cannot build \u2014 filter housing open',
+    timing_pulley:    'No drive pulley \u2014 timing belt has nothing to turn'
+  };
+
+  // Small line-icon set for tray cards, by part shape category
+  const SHAPE_ICONS = {
+    gasket: '<svg viewBox="0 0 40 40"><ellipse cx="20" cy="20" rx="16" ry="10" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="20" r="3" fill="currentColor"/><circle cx="9" cy="15" r="1.6" fill="currentColor"/><circle cx="31" cy="15" r="1.6" fill="currentColor"/><circle cx="9" cy="25" r="1.6" fill="currentColor"/><circle cx="31" cy="25" r="1.6" fill="currentColor"/></svg>',
+    block:  '<svg viewBox="0 0 40 40"><rect x="5" y="10" width="30" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="13" cy="13" r="2" fill="currentColor"/><circle cx="20" cy="13" r="2" fill="currentColor"/><circle cx="27" cy="13" r="2" fill="currentColor"/></svg>',
+    cover:  '<svg viewBox="0 0 40 40"><rect x="4" y="12" width="32" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M11 12v16M19 12v16M27 12v16" stroke="currentColor" stroke-width="2"/></svg>',
+    pan:    '<svg viewBox="0 0 40 40"><path d="M5 12h30l-5 16H10z" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="24" r="2" fill="currentColor"/></svg>',
+    pipe:   '<svg viewBox="0 0 40 40"><path d="M6 30V18a4 4 0 0 1 4-4h8M18 14h12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="34" cy="14" r="3" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>',
+    round:  '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="20" r="5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>'
+  };
+
+  const MISSING_COUNT = 5;
+  const DIAG_TIME = 35;
+  const ASSEMBLY_TIME = 80;
+  const DIAG_POINTS = 40;
+  const PLACE_POINTS = 100;
+  const WRONG_PENALTY = 25;
+  const TIME_BONUS_PER_SEC = 4;
+
+  // ============================================================
+  // Game state
+  // ============================================================
+  let phase = 'intro'; // intro | diagnostics | diagComplete | assembly | end
+  let missingSlots = [];
+  let foundSlots = new Set();
+  let placedSlots = new Set();
+  let score = 0;
+  let diagScore = 0;
+  let assemblyScore = 0;
+  let timeBonus = 0;
+  let timeLeft = 0;
+  let trayParts = [];   // slot ids currently in the tray
+  let selectedTrayId = null;
+  let slotTargets = {};  // slot id -> THREE.Mesh (ghost/socket box)
+  let placedMeshes = {}; // slot id -> THREE.Group (real installed part)
+  let flyAnimations = []; // {mesh, from, to, fromScale, toScale, t, dur}
+  let smokeParticles = [];
+  let smokeUntil = 0;
+  let cameraShake = 0;
+  let outcome = 'success';
+
+  // ============================================================
+  // HUD elements
+  // ============================================================
+  const phaseVal = document.getElementById('phaseVal');
+  const timerChip = document.getElementById('timerChip');
+  const timerVal = document.getElementById('timerVal');
+  const scoreVal = document.getElementById('scoreVal');
+  const instructions = document.getElementById('instructions');
+  const checklist = document.getElementById('checklist');
+  const checklistItems = document.getElementById('checklistItems');
+  const diagnosticPanel = document.getElementById('diagnosticPanel');
+  const diagnosticItems = document.getElementById('diagnosticItems');
+  const trayPanel = document.getElementById('trayPanel');
+  const trayEl = document.getElementById('tray');
+  const dragGhost = document.getElementById('dragGhost');
+
+  const introScreen = document.getElementById('introScreen');
+  const diagScreen = document.getElementById('diagScreen');
+  const endScreen = document.getElementById('endScreen');
+  const diagSummary = document.getElementById('diagSummary');
+  const missingList = document.getElementById('missingList');
+  const endTitle = document.getElementById('endTitle');
+  const endSummary = document.getElementById('endSummary');
+  const scoreBreakdown = document.getElementById('scoreBreakdown');
+  const ratingVal = document.getElementById('ratingVal');
+
+  function setScore(v){
+    score = v;
+    scoreVal.textContent = String(score);
+  }
+  function formatTime(t){
+    t = Math.max(0, Math.ceil(t));
+    const m = Math.floor(t/60), s = t%60;
+    return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }
+
+  // ============================================================
+  // Setup / reset
+  // ============================================================
+  function rad(arr){ return new THREE.Euler(arr[0], arr[1], arr[2]); }
+
+  function setupEngine(){
+    while(engineGroup.children.length) engineGroup.remove(engineGroup.children[0]);
+    slotTargets = {};
+    placedMeshes = {};
+    flyAnimations = [];
+    smokeParticles.forEach(p => sparkGroup.remove(p.mesh));
+    smokeParticles = [];
+    sparks.forEach(s => sparkGroup.remove(s.mesh));
+    sparks = [];
+
+    engineGroup.add(buildEngineBlock());
+
+    const ids = SLOTS.map(s => s.id);
+    shuffle(ids);
+    missingSlots = ids.slice(0, MISSING_COUNT);
+    foundSlots = new Set();
+    placedSlots = new Set();
+
+    SLOTS.forEach((slot) => {
+      const e = rad(slot.rot);
+      if(missingSlots.indexOf(slot.id) === -1){
+        const mesh = slot.build();
+        mesh.position.set(slot.pos[0], slot.pos[1], slot.pos[2]);
+        mesh.rotation.copy(e);
+        engineGroup.add(mesh);
+        placedMeshes[slot.id] = mesh;
+      } else {
+        const target = new THREE.Mesh(
+          new THREE.BoxGeometry(slot.size[0], slot.size[1], slot.size[2]),
+          new THREE.MeshBasicMaterial({ color:0x2bd6ff, wireframe:true, transparent:true, opacity:0.35 })
+        );
+        target.position.set(slot.pos[0], slot.pos[1], slot.pos[2]);
+        target.rotation.copy(e);
+        target.userData.slotId = slot.id;
+        target.userData.flashUntil = 0;
+        target.userData.flashColor = null;
+        engineGroup.add(target);
+        slotTargets[slot.id] = target;
+      }
+    });
+
+    updateConnectors();
+
+    trayParts = missingSlots.slice();
+    shuffle(trayParts);
+    selectedTrayId = null;
+  }
+
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      const tmp = arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+    }
+  }
+
+  // ============================================================
+  // Connectors — coolant hose & serpentine belt drawn between
+  // installed parts for extra mechanical detail
+  // ============================================================
+  let connectorMeshes = [];
+  function clearConnectors(){
+    connectorMeshes.forEach(m => engineGroup.remove(m));
+    connectorMeshes = [];
+  }
+  function updateConnectors(){
+    clearConnectors();
+    const hoseMat = metalMat(0x1c1f25, 0.2, 0.85);
+    const beltMat = metalMat(0x14171d, 0.3, 0.7);
+
+    if(placedMeshes['water_pump']){
+      const wp = SLOT_BY_ID['water_pump'].pos;
+      const start = new THREE.Vector3(wp[0] - 0.2, wp[1] + 0.12, wp[2] + 0.2);
+      const end = new THREE.Vector3(-2.9, 0.75, 0.4);
+      const mid = new THREE.Vector3((start.x+end.x)/2 - 0.25, (start.y+end.y)/2 + 0.35, (start.z+end.z)/2);
+      const curve = new THREE.CatmullRomCurve3([start, mid, end]);
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 16, 0.08, 8, false), hoseMat);
+      engineGroup.add(tube); connectorMeshes.push(tube);
+    }
+
+    // serpentine belt looping around the crank pulley and water pump pulley
+    if(placedMeshes['water_pump'] && placedMeshes['timing_pulley']){
+      const a = SLOT_BY_ID['water_pump'].pos, b = SLOT_BY_ID['timing_pulley'].pos;
+      const ra = 0.42, rb = 0.45;
+      const x = Math.min(a[0], b[0]) - 0.34;
+      const pts = [
+        new THREE.Vector3(x, a[1]+ra, a[2]),
+        new THREE.Vector3(x, b[1]+rb, b[2]+0.18),
+        new THREE.Vector3(x, b[1], b[2]+rb),
+        new THREE.Vector3(x, b[1]-rb, b[2]),
+        new THREE.Vector3(x, a[1]-ra, a[2]-0.12),
+        new THREE.Vector3(x, a[1], a[2]-ra)
+      ];
+      const curve = new THREE.CatmullRomCurve3(pts, true);
+      const belt = new THREE.Mesh(new THREE.TubeGeometry(curve, 48, 0.035, 6, true), beltMat);
+      engineGroup.add(belt); connectorMeshes.push(belt);
+    }
+  }
+
+  // ============================================================
+  // Phase transitions
+  // ============================================================
+  function startDiagnostics(){
+    introScreen.classList.add('hidden');
+    diagScreen.classList.add('hidden');
+    endScreen.classList.add('hidden');
+
+    setupEngine();
+    setScore(0); diagScore = 0; assemblyScore = 0; timeBonus = 0;
+
+    phase = 'diagnostics';
+    timeLeft = DIAG_TIME;
+    phaseVal.textContent = 'DIAGNOSTICS';
+    timerChip.classList.remove('hidden');
+    checklist.classList.remove('hidden');
+    diagnosticPanel.classList.remove('hidden');
+    trayPanel.classList.add('hidden');
+    instructions.innerHTML = 'Drag to <b>rotate</b> the engine. Tap a glowing <b>cyan socket</b> to flag it as missing.';
+
+    checklistItems.innerHTML = '';
+    missingSlots.forEach((id) => {
+      const li = document.createElement('li');
+      li.dataset.id = id;
+      li.innerHTML = '<span class="mark">?</span><span class="txt">Unknown part</span>';
+      checklistItems.appendChild(li);
+    });
+
+    refreshDiagnosticPanel();
+  }
+
+  function refreshDiagnosticPanel(){
+    diagnosticItems.innerHTML = '';
+    missingSlots.forEach((id) => {
+      const li = document.createElement('li');
+      if(foundSlots.has(id)){
+        li.className = 'resolved';
+        li.innerHTML = '<span class="dot ok"></span><span>' + SLOT_BY_ID[id].name.toUpperCase() + ': RESOLVED</span>';
+      } else {
+        li.innerHTML = '<span class="dot warn"></span><span>' + SYMPTOMS[id] + '</span>';
+      }
+      diagnosticItems.appendChild(li);
+    });
+  }
+
+  function finishDiagnostics(){
+    missingSlots.forEach((id) => { if(!foundSlots.has(id)) foundSlots.add(id); });
+    refreshChecklist();
+    refreshDiagnosticPanel();
+
+    phase = 'diagComplete';
+    timerChip.classList.add('hidden');
+    checklist.classList.add('hidden');
+    diagnosticPanel.classList.add('hidden');
+
+    const manualFound = diagScore / DIAG_POINTS;
+    const autoRevealed = missingSlots.length - manualFound;
+    diagSummary.textContent = 'Identified ' + manualFound + ' of ' + missingSlots.length +
+      ' missing parts (' + diagScore + ' pts)' +
+      (autoRevealed > 0 ? ' \u2014 the remaining ' + autoRevealed + ' were revealed when time ran out.' : '. Nice work!') +
+      ' Now grab the right part for each glowing socket before the clock runs out.';
+
+    missingList.innerHTML = '';
+    missingSlots.forEach((id) => {
+      const span = document.createElement('span');
+      span.textContent = SLOT_BY_ID[id].name;
+      missingList.appendChild(span);
+    });
+    diagScreen.classList.remove('hidden');
+  }
+
+  function startAssembly(){
+    diagScreen.classList.add('hidden');
+    phase = 'assembly';
+    timeLeft = ASSEMBLY_TIME;
+    phaseVal.textContent = 'ASSEMBLY';
+    timerChip.classList.remove('hidden');
+    trayPanel.classList.remove('hidden');
+    instructions.innerHTML = 'Drag a part from the tray onto its matching <b>amber socket</b> \u2014 or tap a part, then tap the socket.';
+
+    missingSlots.forEach((id) => {
+      const t = slotTargets[id];
+      if(t){
+        t.material.color.setHex(0xffb347);
+        t.material.opacity = 0.4;
+        t.visible = true;
+      }
+    });
+
+    renderTray();
+  }
+
+  function endGame(success){
+    phase = 'end';
+    outcome = success ? 'success' : 'timeout';
+    timerChip.classList.add('hidden');
+    trayPanel.classList.add('hidden');
+    checklist.classList.add('hidden');
+    diagnosticPanel.classList.add('hidden');
+    instructions.innerHTML = '';
+
+    if(success){
+      timeBonus = Math.round(Math.max(0, timeLeft) * TIME_BONUS_PER_SEC);
+      setScore(diagScore + assemblyScore + timeBonus);
+      smokeUntil = clockTime + 4;
+      endTitle.textContent = 'ENGINE BUILD COMPLETE!';
+      endSummary.textContent = 'Every part is bolted on and the engine is running smooth. Here\u2019s how you did:';
+    } else {
+      timeBonus = 0;
+      setScore(diagScore + assemblyScore);
+      endTitle.textContent = 'OUT OF TIME';
+      const left = missingSlots.filter(id => !placedSlots.has(id));
+      endSummary.textContent = left.length + ' part(s) never got bolted on: ' +
+        left.map(id => SLOT_BY_ID[id].name).join(', ') + '.';
+    }
+
+    scoreBreakdown.innerHTML =
+      '<div class="row"><span>Diagnostics (' + foundSlots.size + ' found)</span><span>' + diagScore + '</span></div>' +
+      '<div class="row"><span>Parts installed (' + placedSlots.size + '/' + missingSlots.length + ')</span><span>' + assemblyScore + '</span></div>' +
+      '<div class="row"><span>Time bonus</span><span>' + timeBonus + '</span></div>' +
+      '<div class="row total"><span>Total</span><span>' + score + '</span></div>';
+
+    const max = MISSING_COUNT*DIAG_POINTS + MISSING_COUNT*PLACE_POINTS + ASSEMBLY_TIME*TIME_BONUS_PER_SEC;
+    const pct = score / max;
+    let rating;
+    if(pct >= 0.82) rating = '\u2605\u2605\u2605 MASTER MECHANIC';
+    else if(pct >= 0.6) rating = '\u2605\u2605 CERTIFIED TECH';
+    else if(pct >= 0.35) rating = '\u2605 GARAGE APPRENTICE';
+    else rating = 'BACK TO TRAINING';
+    ratingVal.textContent = rating;
+
+    endScreen.classList.remove('hidden');
+  }
+
+  // ============================================================
+  // Diagnostics checklist UI
+  // ============================================================
+  function refreshChecklist(){
+    Array.prototype.forEach.call(checklistItems.children, (li) => {
+      const id = li.dataset.id;
+      if(foundSlots.has(id)){
+        li.classList.add('found');
+        li.querySelector('.mark').textContent = '\u2713';
+        li.querySelector('.txt').textContent = SLOT_BY_ID[id].name;
+      }
+    });
+  }
+
+  // ============================================================
+  // Tray UI
+  // ============================================================
+  function renderTray(){
+    trayEl.innerHTML = '';
+    trayParts.forEach((id) => {
+      const slot = SLOT_BY_ID[id];
+      const card = document.createElement('div');
+      card.className = 'tray-card' + (selectedTrayId === id ? ' selected' : '');
+      card.dataset.id = id;
+      card.innerHTML =
+        '<div class="tray-icon" style="color:#' + slot.color.toString(16).padStart(6,'0') + '">' + SHAPE_ICONS[slot.shape] + '</div>' +
+        '<div class="tray-name">' + slot.name + '</div>';
+      trayEl.appendChild(card);
+    });
+  }
+
+  function flashTrayCard(id, cls){
+    const card = trayEl.querySelector('[data-id="' + id + '"]');
+    if(!card) return;
+    card.classList.add(cls);
+    setTimeout(() => card.classList.remove(cls), 350);
+  }
+
+  // ============================================================
+  // Raycasting helpers
+  // ============================================================
+  const raycaster = new THREE.Raycaster();
+  function pickSlotTarget(clientX, clientY, candidateIds){
+    const rect = canvas.getBoundingClientRect();
+    const ndc = new THREE.Vector2(
+      ((clientX - rect.left) / rect.width) * 2 - 1,
+      -((clientY - rect.top) / rect.height) * 2 + 1
+    );
+    raycaster.setFromCamera(ndc, camera);
+    const meshes = candidateIds.map(id => slotTargets[id]).filter(Boolean);
+    const hits = raycaster.intersectObjects(meshes, false);
+    return hits.length ? hits[0].object.userData.slotId : null;
+  }
+
+  // ============================================================
+  // Diagnostics interaction
+  // ============================================================
+  function handleDiagnosticsClick(clientX, clientY){
+    const remaining = missingSlots.filter(id => !foundSlots.has(id));
+    const hit = pickSlotTarget(clientX, clientY, remaining);
+    if(!hit) return;
+
+    foundSlots.add(hit);
+    diagScore += DIAG_POINTS;
+    setScore(diagScore);
+    refreshChecklist();
+    refreshDiagnosticPanel();
+    flashTarget(hit, 0x5bffc6, 450);
+
+    if(foundSlots.size === missingSlots.length){
+      setTimeout(finishDiagnostics, 500);
+    }
+  }
+
+  // ============================================================
+  // Assembly interaction
+  // ============================================================
+  function attemptPlacement(partId, hitSlotId){
+    if(!hitSlotId) return;
+    if(placedSlots.has(hitSlotId)) return;
+
+    if(hitSlotId === partId){
+      placedSlots.add(hitSlotId);
+      trayParts = trayParts.filter(id => id !== partId);
+      selectedTrayId = null;
+      assemblyScore += PLACE_POINTS;
+      setScore(diagScore + assemblyScore);
+      installPart(partId);
+      flashTarget(partId, 0x5bffc6, 350);
+      renderTray();
+
+      if(placedSlots.size === missingSlots.length){
+        setTimeout(() => endGame(true), 700);
+      }
+    } else {
+      assemblyScore = Math.max(0, assemblyScore - WRONG_PENALTY);
+      setScore(diagScore + assemblyScore);
+      flashTarget(hitSlotId, 0xff5e5e, 350);
+      flashTrayCard(partId, 'wrong');
+      cameraShake = 0.18;
+    }
+  }
+
+  function flashTarget(slotId, color, ms){
+    const t = slotTargets[slotId];
+    if(!t) return;
+    t.userData.flashUntil = clockTime + ms/1000;
+    t.userData.flashColor = color;
+  }
+
+  function installPart(slotId){
+    const slot = SLOT_BY_ID[slotId];
+    const target = slotTargets[slotId];
+    if(target){ target.visible = false; }
+
+    const mesh = slot.build();
+    mesh.position.set(slot.pos[0], slot.pos[1] + 2.5, slot.pos[2]);
+    mesh.rotation.copy(rad(slot.rot));
+    mesh.scale.setScalar(0.4);
+    engineGroup.add(mesh);
+    placedMeshes[slotId] = mesh;
+
+    flyAnimations.push({
+      mesh,
+      from: mesh.position.clone(),
+      to: new THREE.Vector3(slot.pos[0], slot.pos[1], slot.pos[2]),
+      fromScale: 0.4,
+      toScale: 1,
+      t: 0,
+      dur: 0.6,
+      onDone: updateConnectors
+    });
+
+    spawnSparks(new THREE.Vector3(slot.pos[0], slot.pos[1], slot.pos[2]));
+  }
+
+  // ============================================================
+  // Spark / smoke particles
+  // ============================================================
+  let sparkGroup = new THREE.Group();
+  turntable.add(sparkGroup);
+  let sparks = [];
+
+  function spawnSparks(position){
+    for(let i=0;i<14;i++){
+      const geo = new THREE.BoxGeometry(0.08, 0.08, 0.08);
+      const mat = new THREE.MeshBasicMaterial({ color:0xffe066, transparent:true, opacity:1 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.copy(position);
+      sparkGroup.add(mesh);
+      const dir = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize();
+      sparks.push({ mesh, vel: dir.multiplyScalar(2 + Math.random()*3), life: 0.5 + Math.random()*0.3, age:0 });
+    }
+  }
+
+  function spawnSmoke(){
+    const exhaust = SLOT_BY_ID['exhaust_manifold'];
+    const pos = new THREE.Vector3(exhaust.pos[0] - 0.6, exhaust.pos[1] - 0.6, exhaust.pos[2]);
+    const geo = new THREE.SphereGeometry(0.18 + Math.random()*0.12, 8, 8);
+    const mat = new THREE.MeshBasicMaterial({ color:0xaab0b8, transparent:true, opacity:0.5 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.copy(pos);
+    sparkGroup.add(mesh);
+    smokeParticles.push({
+      mesh,
+      vel: new THREE.Vector3((Math.random()-0.5)*0.4, 1.2 + Math.random()*0.6, (Math.random()-0.5)*0.4),
+      life: 1.4 + Math.random()*0.6,
+      age: 0
+    });
+  }
+
+  // ============================================================
+  // Pointer input
+  // ============================================================
+  let isPointerDown = false;
+  let lastX = 0, lastY = 0, moved = 0;
+
+  canvas.addEventListener('pointerdown', (e) => {
+    isPointerDown = true;
+    lastX = e.clientX; lastY = e.clientY; moved = 0;
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    if(isPointerDown){
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      camAzimuthOffset += dx * 0.006;
+      camElevation = clamp(camElevation - dy * 0.004, 0.08, 1.35);
+      lastX = e.clientX; lastY = e.clientY;
+    }
+    if(dragState){
+      moveGhost(e.clientX, e.clientY);
+      updateHoverHighlight(e.clientX, e.clientY);
+    }
+  });
+
+  window.addEventListener('pointerup', (e) => {
+    if(isPointerDown && moved < 6){
+      handleCanvasTap(e.clientX, e.clientY);
+    }
+    isPointerDown = false;
+
+    if(dragState){
+      const remaining = missingSlots.filter(id => !placedSlots.has(id));
+      const hit = pickSlotTarget(e.clientX, e.clientY, remaining);
+      attemptPlacement(dragState.id, hit);
+      clearHoverHighlight();
+      dragGhost.classList.add('hidden');
+      dragGhost.innerHTML = '';
+      dragState = null;
+    }
+  });
+
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+  function handleCanvasTap(clientX, clientY){
+    if(phase === 'diagnostics'){
+      handleDiagnosticsClick(clientX, clientY);
+    } else if(phase === 'assembly' && selectedTrayId){
+      const remaining = missingSlots.filter(id => !placedSlots.has(id));
+      const hit = pickSlotTarget(clientX, clientY, remaining);
+      attemptPlacement(selectedTrayId, hit);
+    }
+  }
+
+  // ---------- Tray click (select) + drag start ----------
+  let dragState = null; // {id}
+
+  trayEl.addEventListener('click', (e) => {
+    const card = e.target.closest('.tray-card');
+    if(!card) return;
+    const id = card.dataset.id;
+    selectedTrayId = (selectedTrayId === id) ? null : id;
+    renderTray();
+  });
+
+  trayEl.addEventListener('pointerdown', (e) => {
+    const card = e.target.closest('.tray-card');
+    if(!card) return;
+    e.preventDefault();
+    dragState = { id: card.dataset.id };
+    dragGhost.innerHTML = card.outerHTML;
+    dragGhost.classList.remove('hidden');
+    moveGhost(e.clientX, e.clientY);
+  });
+
+  function moveGhost(x, y){
+    dragGhost.style.left = x + 'px';
+    dragGhost.style.top = y + 'px';
+  }
+
+  function updateHoverHighlight(clientX, clientY){
+    const remaining = missingSlots.filter(id => !placedSlots.has(id));
+    const hit = pickSlotTarget(clientX, clientY, remaining);
+    remaining.forEach((id) => {
+      const t = slotTargets[id];
+      if(t) t.userData.hover = (id === hit);
+    });
+  }
+  function clearHoverHighlight(){
+    missingSlots.forEach((id) => {
+      const t = slotTargets[id];
+      if(t) t.userData.hover = false;
+    });
+  }
+
+  // ---------- mouse wheel zoom ----------
+  window.addEventListener('wheel', (e) => {
+    camDistance = clamp(camDistance + e.deltaY * 0.004, 6, 15);
+  }, { passive:true });
+
+  // ============================================================
+  // Buttons
+  // ============================================================
+  document.getElementById('startBtn').addEventListener('click', startDiagnostics);
+  document.getElementById('assembleBtn').addEventListener('click', startAssembly);
+  document.getElementById('restartBtn').addEventListener('click', startDiagnostics);
+
+  // ============================================================
+  // Main loop
+  // ============================================================
+  let clockTime = 0;
+  let lastTs = null;
+
+  function tick(ts){
+    requestAnimationFrame(tick);
+    if(lastTs === null) lastTs = ts;
+    const dt = Math.min((ts - lastTs) / 1000, 0.05);
+    lastTs = ts;
+    clockTime += dt;
+
+    // gentle showroom spin while idle on the intro screen
+    if(phase === 'intro' && !isPointerDown && !dragState){
+      camAzimuthOffset += dt * 0.12;
+    }
+
+    // timers
+    if(phase === 'diagnostics' || phase === 'assembly'){
+      timeLeft -= dt;
+      timerVal.textContent = formatTime(timeLeft);
+      timerChip.classList.toggle('low', timeLeft <= 10);
+      if(timeLeft <= 0){
+        timeLeft = 0;
+        timerVal.textContent = formatTime(0);
+        if(phase === 'diagnostics') finishDiagnostics();
+        else if(phase === 'assembly') endGame(false);
+      }
+    }
+
+    // pulse + flash target sockets
+    for(const id in slotTargets){
+      const t = slotTargets[id];
+      if(!t.visible) continue;
+      if(t.userData.flashUntil > clockTime){
+        t.material.color.setHex(t.userData.flashColor);
+        t.material.opacity = 0.85;
+      } else {
+        const base = (phase === 'diagnostics')
+          ? (foundSlots.has(id) ? 0x5bffc6 : 0x2bd6ff)
+          : (phase === 'assembly' && !placedSlots.has(id)) ? 0xffb347
+          : 0x2bd6ff;
+        t.material.color.setHex(base);
+        const pulse = 0.25 + Math.sin(clockTime*3 + (t.userData.hover ? 3 : 0)) * 0.15 + (t.userData.hover ? 0.25 : 0);
+        t.material.opacity = clamp(pulse, 0.15, 0.85);
+      }
+    }
+
+    // fly-in animations
+    for(let i=flyAnimations.length-1;i>=0;i--){
+      const a = flyAnimations[i];
+      a.t += dt / a.dur;
+      const tt = clamp(a.t, 0, 1);
+      const ease = 1 - Math.pow(1-tt, 3);
+      a.mesh.position.lerpVectors(a.from, a.to, ease);
+      const s = a.fromScale + (a.toScale - a.fromScale) * ease;
+      a.mesh.scale.setScalar(s);
+      if(a.t >= 1){
+        if(a.onDone) a.onDone();
+        flyAnimations.splice(i,1);
+      }
+    }
+
+    // sparks
+    for(let i=sparks.length-1;i>=0;i--){
+      const s = sparks[i];
+      s.age += dt;
+      s.mesh.position.addScaledVector(s.vel, dt);
+      s.vel.multiplyScalar(0.92);
+      s.mesh.material.opacity = Math.max(0, 1 - s.age/s.life);
+      if(s.age >= s.life){ sparkGroup.remove(s.mesh); sparks.splice(i,1); }
+    }
+
+    // smoke (success state)
+    if(phase === 'end' && outcome === 'success' && clockTime < smokeUntil){
+      if(Math.random() < dt*6) spawnSmoke();
+    }
+    for(let i=smokeParticles.length-1;i>=0;i--){
+      const p = smokeParticles[i];
+      p.age += dt;
+      p.mesh.position.addScaledVector(p.vel, dt);
+      p.mesh.scale.setScalar(1 + p.age*0.8);
+      p.mesh.material.opacity = Math.max(0, 0.5 - p.age*0.3);
+      if(p.age >= p.life){ sparkGroup.remove(p.mesh); smokeParticles.splice(i,1); }
+    }
+
+    // camera shake decay
+    let shakeX = 0, shakeY = 0;
+    if(cameraShake > 0){
+      shakeX = (Math.random()-0.5) * cameraShake;
+      shakeY = (Math.random()-0.5) * cameraShake;
+      cameraShake = Math.max(0, cameraShake - dt*0.9);
+    }
+
+    updateCamera();
+    camera.position.x += shakeX;
+    camera.position.y += shakeY;
+
+    renderer.render(scene, camera);
+  }
+
+  // ============================================================
+  // Boot
+  // ============================================================
+  setupEngine();
+  requestAnimationFrame(tick);
+})();
+
+</script>
+</body>
+</html>
